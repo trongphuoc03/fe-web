@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Combo</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@latest/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/flowbite@1.7.0/dist/flowbite.min.css" rel="stylesheet">
+</head>
+
+<body>
+    <div id="header-container"></div>
+
+    <style>
+        /* Đặt kiểu cho cả hai nút */
+        .carousel-btn {
+            background-color: rgba(140, 143, 147, 0.355);
+            /* Màu nền nhạt cho nút */
+            transition: background-color 0.3s ease;
+            /* Hiệu ứng chuyển màu mượt mà */
+        }
+
+        /* Khi hover vào nút, thay đổi màu nền */
+        .carousel-btn:hover {
+            background-color: rgba(55, 65, 81, 1);
+            /* Màu nền đậm hơn */
+        }
+
+        /* Cũng có thể chỉnh thêm nếu muốn nút nổi bật hơn khi hover */
+        .carousel-btn:hover {
+            transform: scale(1.1);
+            /* Làm nút phóng to một chút khi hover */
+        }
+
+        /* CSS cho dropdown menu */
+        #dropdownHover {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            z-index: 1000;
+        }
+    </style>
+
+
+    <main>
+        <div style="margin-left: 15%; margin-right: 15%;">
+            <div class="flex items-center mb-4 ">
+                <div class="image-gallery" style="width: 40%;">
+                    <!-- Carousel hiển thị ảnh lớn -->
+                    <div id="carousel" class="relative w-full h-auto overflow-hidden rounded-lg">
+                        <!-- Ảnh lớn sẽ được thêm động bằng JS -->
+                    </div>
+
+                    <!-- Dãy ảnh nhỏ bên dưới -->
+                    <div class="flex justify-center gap-2 mt-4" id="thumbnail-container">
+                        <!-- Ảnh nhỏ sẽ được thêm động bằng JS -->
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-lg p-6 mb-6" style="margin-left: 100px;">
+                    <h2 class="text-2xl font-semibold mb-4" id="combo-name"></h2>
+                    <p class="flex text-sm text-gray-500">
+                        <svg class="w-5 h-5 text-gray-800 dark:text-white" aria-hidden="true"
+                            xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
+                            viewBox="0 0 24 24">
+                            <path fill-rule="evenodd"
+                                d="M11.906 1.994a8.002 8.002 0 0 1 8.09 8.421 7.996 7.996 0 0 1-1.297 3.957.996.996 0 0 1-.133.204l-.108.129c-.178.243-.37.477-.573.699l-5.112 6.224a1 1 0 0 1-1.545 0L5.982 15.26l-.002-.002a18.146 18.146 0 0 1-.309-.38l-.133-.163a.999.999 0 0 1-.13-.202 7.995 7.995 0 0 1 6.498-12.518ZM15 9.997a3 3 0 1 1-5.999 0 3 3 0 0 1 5.999 0Z"
+                                clip-rule="evenodd" />
+                        </svg>
+
+                        <span id="combo-location"></span>
+                    </p>
+
+                    <p class="text-red-700 mt-4 text-2xl mb-4"><span id="combo-price"></span> VNĐ</p>
+
+                    <!-- Form đặt phòng -->
+                    <form id="booking-form" class="mb-4">
+                        <div class="flex items-center space-x-4 mb-3">
+                            <label for="booking-date" class="block text-sm font-medium text-gray-700">Ngày:</label>
+                            <input type="date" id="booking-date" class="border rounded p-2 block w-full">
+                        </div>
+
+                        <div class="mt-4 flex items-center space-x-1">
+                            <label for="num-people" class="block text-sm font-medium text-gray-700 mr-2">Số lượng
+                                người</label>
+                            <div class="relative flex items-center">
+                                <!-- Button giảm số người -->
+                                <button type="button" id="decrement-button"
+                                    data-input-counter-decrement="passengerCount"
+                                    class="flex-shrink-0 bg-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 dark:border-gray-600 hover:bg-gray-200 inline-flex items-center justify-center border border-gray-300 rounded-md h-8 w-8 focus:ring-2 focus:ring-gray-100 dark:focus:ring-gray-700 focus:outline-none">
+                                    <svg class="w-3 h-3 text-gray-900 dark:text-white" aria-hidden="true"
+                                        xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 2">
+                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                            stroke-width="2" d="M1 1h16" />
+                                    </svg>
+                                </button>
+
+                                <!-- Input number (số lượng người) -->
+                                <input type="number" id="num-people"
+                                    class="text-gray-900 dark:text-white border-0 bg-transparent text-sm font-normal focus:outline-none focus:ring-0 w-16 text-center rounded-md"
+                                    placeholder="" value="1" />
+
+                                <!-- Button tăng số người -->
+                                <button type="button" id="increment-button"
+                                    data-input-counter-increment="passengerCount"
+                                    class="flex-shrink-0 bg-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 dark:border-gray-600 hover:bg-gray-200 inline-flex items-center justify-center border border-gray-300 rounded-md h-8 w-8 focus:ring-2 focus:ring-gray-100 dark:focus:ring-gray-700 focus:outline-none">
+                                    <svg class="w-3 h-3 text-gray-900 dark:text-white" aria-hidden="true"
+                                        xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
+                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                            stroke-width="2" d="M9 1v16M1 9h16" />
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="flex flex-col items-center justify-center">
+                            <div id="total-price" class="mt-4 text-lg font-semibold text-blue-600"></div>
+
+                            <a href="payment.html"
+                                class="bg-indigo-600 text-white py-1 px-3 rounded mt-2 hover:bg-indigo-700 inline-block">
+                                Đặt tour
+                            </a>
+                        </div>
+                    </form>
+                </div>
+
+                </form>
+
+
+            </div>
+
+            <p class="text-black text-lg" id="combo-description"
+                style="margin-top: 50px; margin-bottom: 50px; margin-left: 20px;"></p>
+
+            <div class="bg-white shadow-md rounded-lg p-6">
+                <h3 class="text-xl font-semibold mb-4">Phản hồi khách hàng</h3>
+                <div id="feedback-list"></div>
+            </div>
+        </div>
+    </main>
+
+
+            <div id="footer"></div>
+
+            <script src="https://cdn.jsdelivr.net/npm/flowbite@1.7.0/dist/flowbite.min.js"></script>
+            <script type="module" src="assets/js/components/header.js"></script>
+            <script type="module" src="assets/js/components/auth.js"></script>
+            <script type="module" src="assets/js/components/footer.js"></script>
+            <script type="module" src="assets/js/components/combo-detail.js"></script>
+
+
+</body>
+
+</html>

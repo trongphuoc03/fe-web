@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Hotel</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@latest/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/flowbite@1.7.0/dist/flowbite.min.css" rel="stylesheet">
+</head>
+
+<body>
+    <div id="header-container"></div>
+
+    <style>
+        /* Đặt kiểu cho cả hai nút */
+        .carousel-btn {
+            background-color: rgba(140, 143, 147, 0.355);
+            /* Màu nền nhạt cho nút */
+            transition: background-color 0.3s ease;
+            /* Hiệu ứng chuyển màu mượt mà */
+        }
+
+        /* Khi hover vào nút, thay đổi màu nền */
+        .carousel-btn:hover {
+            background-color: rgba(55, 65, 81, 1);
+            /* Màu nền đậm hơn */
+        }
+
+        /* Cũng có thể chỉnh thêm nếu muốn nút nổi bật hơn khi hover */
+        .carousel-btn:hover {
+            transform: scale(1.1);
+            /* Làm nút phóng to một chút khi hover */
+        }
+
+        /* CSS cho dropdown menu */
+        #dropdownHover {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            z-index: 1000;
+        }
+    </style>
+
+
+    <main>
+        <div class="container mx-auto p-5 flex">
+            <!-- Phần tìm kiếm -->
+            <div class="w-1/4 bg-white p-5 rounded-lg shadow-md mr-4">
+                <h2 class="text-xl font-semibold mb-4">Tìm kiếm khách sạn</h2>
+                <div>
+                    <label for="location" class="block text-sm font-medium text-gray-700">Địa điểm</label>
+                    <input type="text" id="location" class="block w-full border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-1" placeholder="Nhập địa điểm">
+                </div>
+                <div class="mt-4">
+                    <label for="price" class="block text-sm font-medium text-gray-700">Giá tối đa</label>
+                    <input type="number" id="price" class="block w-full border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-1" placeholder="Nhập giá tối đa">
+                </div>
+                <div class="mt-4">
+                    <button onclick="applyFilter()" class="w-full bg-indigo-600 text-white py-2 px-4 rounded hover:bg-indigo-700">Tìm kiếm</button>
+                </div>
+            </div>
+            
+            
+            <!-- Phần hiển thị danh sách khách sạn -->
+            <div class="w-3/4 pl-6">
+                <div class="flex items-center justify-between mb-4">
+                    <div></div> <!-- Placeholder để đẩy dropdown sang phải -->
+                    <select id="sort" class="border rounded p-2 w-1/3" onchange="applySort()">
+                        <option value="default">Mặc định</option>
+                        <option value="price-asc">Giá thấp nhất</option>
+                        <option value="price-desc">Giá cao nhất</option>
+                        <option value="rating-desc">Rating cao nhất</option>
+                    </select>
+                </div>
+
+                <div id="hotel-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+            </div>
+        </div>
+    
+    </main>
+
+            <div id="footer"></div>
+
+            <script src="https://cdn.jsdelivr.net/npm/flowbite@1.7.0/dist/flowbite.min.js"></script>
+            <script type="module" src="assets/js/components/header.js"></script>
+            <script type="module" src="assets/js/components/auth.js"></script>
+            <script type="module" src="assets/js/components/footer.js"></script>
+            <script src="assets/js/components/hotel-list.js"></script>
+
+
+</body>
+
+</html>

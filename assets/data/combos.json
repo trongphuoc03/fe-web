@@ -1,0 +1,60 @@
+[
+  {
+    "id": 1,
+    "name": "Weekend Getaway",
+    "description": "Includes hotel stay and city tour",
+    "price": 350,
+    "images": [
+      "https://th.bing.com/th/id/OIP.SYTVucdvWZ9EbYjsWI_zpQHaEw?w=293&h=188&c=7&r=0&o=5&dpr=1.3&pid=1.7",
+      "https://th.bing.com/th?id=OIP.-unRTdtPAE8NbOo_651fHwHaEo&w=316&h=197&c=8&rs=1&qlt=90&o=6&dpr=1.3&pid=3.1&rm=2",
+      "https://th.bing.com/th/id/OIP.SYTVucdvWZ9EbYjsWI_zpQHaEw?w=293&h=188&c=7&r=0&o=5&dpr=1.3&pid=1.7",
+      "https://th.bing.com/th/id/OIP.SYTVucdvWZ9EbYjsWI_zpQHaEw?w=293&h=188&c=7&r=0&o=5&dpr=1.3&pid=1.7"
+    ],
+    "location": "Hanoi"
+  },
+  {
+    "id": 2,
+    "name": "Adventure Package",
+    "description": "Includes hiking and sightseeing",
+    "price": 400,
+    "images": [
+      "https://th.bing.com/th/id/OIP.SYTVucdvWZ9EbYjsWI_zpQHaEw?w=293&h=188&c=7&r=0&o=5&dpr=1.3&pid=1.7",
+      "https://th.bing.com/th/id/OIP.SYTVucdvWZ9EbYjsWI_zpQHaEw?w=293&h=188&c=7&r=0&o=5&dpr=1.3&pid=1.7",
+      "https://th.bing.com/th/id/OIP.SYTVucdvWZ9EbYjsWI_zpQHaEw?w=293&h=188&c=7&r=0&o=5&dpr=1.3&pid=1.7",
+      "https://th.bing.com/th/id/OIP.SYTVucdvWZ9EbYjsWI_zpQHaEw?w=293&h=188&c=7&r=0&o=5&dpr=1.3&pid=1.7"
+    ],
+    "location": "Da Nang"
+  },
+  {
+    "id": 3,
+    "name": "Weekends Getaway",
+    "description": "Includes hotel stay and city tour",
+    "price": 3500,
+    "images": "https://th.bing.com/th/id/OIP.SYTVucdvWZ9EbYjsWI_zpQHaEw?w=293&h=188&c=7&r=0&o=5&dpr=1.3&pid=1.7",
+    "location": "Hanoi"
+  },
+  {
+    "id": 4,
+    "name": "Adventure Packages",
+    "description": "Includes hiking and sightseeing",
+    "price": 4000,
+    "images": "https://th.bing.com/th/id/OIP.SYTVucdvWZ9EbYjsWI_zpQHaEw?w=293&h=188&c=7&r=0&o=5&dpr=1.3&pid=1.7",
+    "location": "Sapa"
+  },
+  {
+    "id": 5,
+    "name": "Weekend Getaways",
+    "description": "Includes hotel stay and city tour",
+    "price": 3507,
+    "images": "https://th.bing.com/th/id/OIP.SYTVucdvWZ9EbYjsWI_zpQHaEw?w=293&h=188&c=7&r=0&o=5&dpr=1.3&pid=1.7",
+    "location": "Hue"
+  },
+  {
+    "id": 6,
+    "name": "Adventures Package",
+    "description": "Includes hiking and sightseeing",
+    "price": 4004,
+    "images": "https://th.bing.com/th/id/OIP.SYTVucdvWZ9EbYjsWI_zpQHaEw?w=293&h=188&c=7&r=0&o=5&dpr=1.3&pid=1.7",
+    "location": "Phong Nha"
+  }
+]

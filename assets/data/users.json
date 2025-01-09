@@ -1,0 +1,52 @@
+[
+    {
+      "id": 1,
+      "username": "johndoe",
+      "password": "password123",
+      "email": "john@example.com",
+      "phone": "123-456-7890",
+      "address": "123 Main St",
+      "role": "user",
+      "membershipLevel": "Public"
+    },
+    {
+      "id": 2,
+      "username": "janesmith",
+      "password": "password456",
+      "email": "jane@example.com",
+      "phone": "987-654-3210",
+      "address": "456 Elm St",
+      "role": "user",
+      "membershipLevel": "Silver"
+    },
+    {
+      "id": 3,
+      "username": "adminuser",
+      "password": "adminpassword",
+      "email": "admin@example.com",
+      "phone": "555-555-5555",
+      "address": "789 Oak St",
+      "role": "admin",
+      "membershipLevel": "Public"
+    },
+    {
+      "id": 4,
+      "username": "alicejohnson",
+      "password": "alicepassword",
+      "email": "alice@example.com",
+      "phone": "111-222-3333",
+      "address": "321 Pine St",
+      "role": "user",
+      "membershipLevel": "Silver"
+    },
+    {
+      "id": 5,
+      "username": "bobwilliams",
+      "password": "bobpassword",
+      "email": "bob@example.com",
+      "phone": "444-555-6666",
+      "address": "654 Maple St",
+      "role": "user",
+      "membershipLevel": "Public"
+    }
+  ]

@@ -1,0 +1,72 @@
+[
+  {
+      "id": 1,
+      "name": "City Tour",
+      "location": "City A",
+      "price": 100,
+      "description": "Explore the main attractions of City A.",
+      "images": [
+          "https://th.bing.com/th/id/OIP.xF_e-ecWWR3A7iNvSKjq2AHaHa?w=208&h=208&c=7&r=0&o=5&dpr=1.3&pid=1.7",
+          "https://th.bing.com/th/id/OIP.MdEj7wW8eQoIXEYFppF1iwHaHa?w=208&h=208&c=7&r=0&o=5&dpr=1.3&pid=1.7",
+          "https://th.bing.com/th/id/OIP.qeqsHtRoX7fZwE3RUgpVEwHaHa?w=208&h=208&c=7&r=0&o=5&dpr=1.3&pid=1.7",
+          "https://th.bing.com/th/id/OIP.HycemEcDCwZ_r9g6zlZGrgHaE8?w=260&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7",
+          "https://th.bing.com/th/id/OIP.HycemEcDCwZ_r9g6zlZGrgHaE8?w=260&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7",
+          "https://th.bing.com/th/id/OIP.HycemEcDCwZ_r9g6zlZGrgHaE8?w=260&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7"
+
+      ]
+  },
+  {
+      "id": 2,
+      "name": "Museum Visit",
+      "location": "City B",
+      "price": 50,
+      "description": "Visit the famous museums in City B.",
+      "images": [
+          "https://th.bing.com/th/id/OIP.xF_e-ecWWR3A7iNvSKjq2AHaHa?w=208&h=208&c=7&r=0&o=5&dpr=1.3&pid=1.7",
+          "https://th.bing.com/th/id/OIP.xF_e-ecWWR3A7iNvSKjq2AHaHa?w=208&h=208&c=7&r=0&o=5&dpr=1.3&pid=1.7"
+      ]
+  },
+  {
+      "id": 3,
+      "name": "Hiking Adventure",
+      "location": "City C",
+      "price": 120,
+      "description": "Enjoy a hiking adventure in the mountains of City C.",
+      "images": [
+          "https://th.bing.com/th/id/OIP.xF_e-ecWWR3A7iNvSKjq2AHaHa?w=208&h=208&c=7&r=0&o=5&dpr=1.3&pid=1.7",
+          "https://th.bing.com/th/id/OIP.xF_e-ecWWR3A7iNvSKjq2AHaHa?w=208&h=208&c=7&r=0&o=5&dpr=1.3&pid=1.7"
+      ]
+  },
+  {
+      "id": 4,
+      "name": "Citys Tour",
+      "location": "City B",
+      "price": 200,
+      "description": "Explore the main attractions of City B.",
+      "images": [
+          "https://th.bing.com/th/id/OIP.0Lpk1KJvbO-uAHRNJFcPQAHaHa?w=208&h=208&c=7&r=0&o=5&dpr=1.3&pid=1.7",
+          "https://th.bing.com/th/id/OIP.JLR5B7_JyYOsWduf48NNPgHaHa?w=208&h=208&c=7&r=0&o=5&dpr=1.3&pid=1.7"
+      ]
+  },
+  {
+      "id": 5,
+      "name": "Military Museum Visit",
+      "location": "City B",
+      "price": 0,
+      "description": "Visit the famous museums in City B.",
+      "images": [
+          "https://th.bing.com/th/id/OIP.YiOjZcvmv80EQQPrqqA9iAHaHa?w=208&h=208&c=7&r=0&o=5&dpr=1.3&pid=1.7"
+      ]
+  },
+  {
+      "id": 6,
+      "name": "Hiking Adventures",
+      "location": "City D",
+      "price": 120,
+      "description": "Enjoy a hiking adventure in the mountains of City C.",
+      "images": [
+          "https://th.bing.com/th/id/OIP.xF_e-ecWWR3A7iNvSKjq2AHaHa?w=208&h=208&c=7&r=0&o=5&dpr=1.3&pid=1.7",
+          "https://th.bing.com/th/id/OIP.WXnVGyoXUbOaRs5t22BtmwHaHa?w=208&h=208&c=7&r=0&o=5&dpr=1.3&pid=1.7"
+      ]
+  }
+]

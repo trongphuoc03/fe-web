@@ -1,0 +1,55 @@
+[
+    {
+      "id": 1,
+      "hotel_id": 1,
+      "combo_id":1,
+      "activity_id":1,
+      "name": "Nguyễn Văn A",
+      "rating": 4,
+      "comment": "Khách sạn rất sạch sẽ và tiện nghi. ",
+      "created_date": "2024-12-20"
+    },
+    {
+      "id": 2,
+      "hotel_id": 2,
+      "combo_id":2,
+      "activity_id":2,
+      "name": "Trần Thị B",
+      "rating": 5,
+      "comment": "Dịch vụ tuyệt vời, nhân viên rất thân thiện.",
+      "created_date": "2024-12-22"
+    },
+    {
+      "id": 3,
+      "hotel_id": 3,
+      "combo_id": 3,
+      "activity_id":3,
+      "name": "Lê Minh C",
+      "rating": 3,
+      "comment": "Phòng hơi nhỏ nhưng view đẹp.",
+      "created_date": "2024-12-25"
+    },
+  
+    {
+      "id": 4,
+      "hotel_id": 3,
+      "combo_id":3,
+      "activity_id":3,
+      "name": "Lê Minh C",
+      "rating": 4,
+      "comment": "Phòng hơi nhỏ nhưng view đẹp.",
+      "created_date": "2024-12-25"
+    },
+    
+    {
+      "id": 5,
+      "hotel_id": 3,
+      "combo_id":3,
+      "activity_id":3,
+      "name": "Lê Minh C",
+      "rating": 3,
+      "comment": "Phòng hơi nhỏ nhưng view đẹp.",
+      "created_date": "2024-12-25"
+    }
+  ]
+  

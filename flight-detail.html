@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Flight</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@latest/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/flowbite@1.7.0/dist/flowbite.min.css" rel="stylesheet">
+</head>
+
+<body>
+    <div id="header-container"></div>
+
+    <style>
+        /* Đặt kiểu cho cả hai nút */
+        .carousel-btn {
+            background-color: rgba(140, 143, 147, 0.355);
+            /* Màu nền nhạt cho nút */
+            transition: background-color 0.3s ease;
+            /* Hiệu ứng chuyển màu mượt mà */
+        }
+
+        /* Khi hover vào nút, thay đổi màu nền */
+        .carousel-btn:hover {
+            background-color: rgba(55, 65, 81, 1);
+            /* Màu nền đậm hơn */
+        }
+
+        /* Cũng có thể chỉnh thêm nếu muốn nút nổi bật hơn khi hover */
+        .carousel-btn:hover {
+            transform: scale(1.1);
+            /* Làm nút phóng to một chút khi hover */
+        }
+
+        /* CSS cho dropdown menu */
+        #dropdownHover {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            z-index: 1000;
+        }
+    </style>
+
+
+    <main>
+        <div id="flight-info" class="container mx-auto p-5">
+            <div id="flight-detail" class="bg-white p-5 rounded-lg shadow-md">
+                <h1 class="text-2xl font-bold mb-4">Chi tiết chuyến bay</h1>
+                <p id="flight-brand" class="text-lg mb-2"></p>
+                <p id="flight-route" class="text-lg mb-2"></p>
+                <p id="flight-time" class="text-lg mb-2"></p>
+                <p id="flight-price" class="text-lg mb-2"></p>
+                <p id="passenger-count" class="text-lg mb-2"></p>
+                <p id="total-price" class="text-lg font-bold text-blue-600 mt-4"></p>
+            </div>
+
+            <!-- Form điền thông tin hành khách -->
+            <div id="passenger-form" class="bg-white p-5 rounded-lg shadow-md mt-6">
+                <h2 class="text-xl font-semibold mb-4">Thông tin hành khách</h2>
+
+                <!-- Danh sách thông tin hành khách -->
+                <div id="passenger-list"></div>
+
+                <div class="mb-4">
+                    <a href="payment.html" class="w-full bg-indigo-600 text-white py-2 px-4 rounded mt-2 hover:bg-indigo-700 inline-block flex items-center justify-center">
+                        Đặt vé
+                    </a>
+                    
+                </div>
+            </div>
+        </div>
+    </main>
+
+            <div id="footer"></div>
+
+            <script src="https://cdn.jsdelivr.net/npm/flowbite@1.7.0/dist/flowbite.min.js"></script>
+            <script type="module" src="assets/js/components/header.js"></script>
+            <script type="module" src="assets/js/components/auth.js"></script>
+            <script type="module" src="assets/js/components/footer.js"></script>
+            <script type="module" src="assets/js/components/flight-detail.js"></script>
+
+
+</body>
+
+</html>

@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Flight</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@latest/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/flowbite@1.7.0/dist/flowbite.min.css" rel="stylesheet">
+</head>
+
+<body>
+    <div id="header-container"></div>
+
+    <style>
+        /* Đặt kiểu cho cả hai nút */
+        .carousel-btn {
+            background-color: rgba(140, 143, 147, 0.355);
+            /* Màu nền nhạt cho nút */
+            transition: background-color 0.3s ease;
+            /* Hiệu ứng chuyển màu mượt mà */
+        }
+
+        /* Khi hover vào nút, thay đổi màu nền */
+        .carousel-btn:hover {
+            background-color: rgba(55, 65, 81, 1);
+            /* Màu nền đậm hơn */
+        }
+
+        /* Cũng có thể chỉnh thêm nếu muốn nút nổi bật hơn khi hover */
+        .carousel-btn:hover {
+            transform: scale(1.1);
+            /* Làm nút phóng to một chút khi hover */
+        }
+
+        /* CSS cho dropdown menu */
+        #dropdownHover {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            z-index: 1000;
+        }
+    </style>
+
+
+    <main>
+        <div class="container mx-auto flex" style="margin-left:9%">
+            <!-- Phần tìm kiếm chuyến bay -->
+            <div class="bg-white p-5 rounded-lg shadow-md" style="width: 20%; margin-right: 20px;">
+                <h2 class="text-xl font-semibold mb-4">Tìm kiếm chuyến bay</h2>
+        
+                <div>
+                    <label for="startLocation" class="block text-sm font-medium text-gray-700">Địa điểm đi <span class="text-red-500">*</span></label>
+                    <input type="text" id="startLocation" class="block w-full border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-1" placeholder="Nhập địa điểm đi" required>
+                    <span id="error-startLocation" class="text-red-500 text-sm hidden">Vui lòng nhập địa điểm đi.</span>
+                </div>
+        
+                <div class="mt-4">
+                    <label for="endLocation" class="block text-sm font-medium text-gray-700">Địa điểm đến <span class="text-red-500">*</span></label>
+                    <input type="text" id="endLocation" class="block w-full border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-1" placeholder="Nhập địa điểm đến" required>
+                    <span id="error-endLocation" class="text-red-500 text-sm hidden">Vui lòng nhập địa điểm đến.</span>
+                </div>
+        
+                <div class="mt-4">
+                    <label for="brand" class="block text-sm font-medium text-gray-700">Hãng hàng không</label>
+                    <input type="text" id="brand" class="block w-full border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-1" placeholder="Nhập hãng hàng không">
+                </div>
+        
+                <div class="mt-4">
+                    <label for="startDate" class="block text-sm font-medium text-gray-700">Ngày khởi hành <span class="text-red-500">*</span></label>
+                    <input type="date" id="startDate" class="block w-full border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-1" required>
+                    <span id="error-startDate" class="text-red-500 text-sm hidden">Vui lòng chọn ngày khởi hành.</span>
+                </div>
+        
+                <div class="mt-4">
+                    <label for="passengerCount" class="block text-sm font-medium text-gray-700">Số lượng hành khách <span class="text-red-500">*</span></label>
+                    <div class="relative flex items-center">
+                        <button type="button" id="decrement-button" data-input-counter-decrement="passengerCount" class="flex-shrink-0 bg-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 dark:border-gray-600 hover:bg-gray-200 inline-flex items-center justify-center border border-gray-300 rounded-md h-5 w-5 focus:ring-gray-100 dark:focus:ring-gray-700 focus:ring-2 focus:outline-none">
+                            <svg class="w-2.5 h-2.5 text-gray-900 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 2">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1h16"/>
+                            </svg>
+                        </button>
+                        <input type="number" id="passengerCount" class="flex-shrink-0 text-gray-900 dark:text-white border-0 bg-transparent text-sm font-normal focus:outline-none focus:ring-0 max-w-[2.5rem] text-center" placeholder="" value="1" required />
+                        <button type="button" id="increment-button" data-input-counter-increment="passengerCount" class="flex-shrink-0 bg-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 dark:border-gray-600 hover:bg-gray-200 inline-flex items-center justify-center border border-gray-300 rounded-md h-5 w-5 focus:ring-gray-100 dark:focus:ring-gray-700 focus:ring-2 focus:outline-none">
+                            <svg class="w-2.5 h-2.5 text-gray-900 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+                
+        
+                <div class="mt-4">
+                    <label for="price" class="block text-sm font-medium text-gray-700">Giá tối đa</label>
+                    <input type="number" id="price" class="block w-full border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-1" placeholder="Nhập giá tối đa">
+                </div>
+        
+                <div class="mt-4">
+                    <button onclick="applyFilter()" class="w-full bg-indigo-600 text-white py-2 px-4 rounded hover:bg-indigo-700">Tìm kiếm</button>
+                </div>
+            </div>
+        
+            <!-- Phần hiển thị danh sách chuyến bay -->
+            <div class="" style="width: 75.5%;">
+                <div class="flex items-center justify-end mb-4">
+                    <select id="sort" class="border rounded p-2" onchange="applySort()">
+                        <option value="default">Mặc định</option>
+                        <option value="price-asc">Giá thấp nhất</option>
+                        <option value="price-desc">Giá cao nhất</option>
+                    </select>
+                </div>
+        
+                <div id="flight-list" class="grid grid-cols-1 gap-6"></div>
+
+            </div>
+        </div>
+        
+        
+        
+    </main>
+
+
+            <div id="footer"></div>
+
+            <script src="https://cdn.jsdelivr.net/npm/flowbite@1.7.0/dist/flowbite.min.js"></script>
+            <script type="module" src="assets/js/components/header.js"></script>
+            <script type="module" src="assets/js/components/auth.js"></script>
+            <script type="module" src="assets/js/components/footer.js"></script>
+            <script src="assets/js/components/flight-list.js"></script>
+
+
+</body>
+
+</html>

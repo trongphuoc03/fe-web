@@ -1,0 +1,65 @@
+[
+  {
+    "id": 1,
+    "name": "Davue Hotel Da Nang",
+    "location": "Phường Mỹ An, Quận Ngũ Hành Sơn",
+    "price": 237187,
+    "images": [
+      "https://th.bing.com/th/id/OIP.SYTVucdvWZ9EbYjsWI_zpQHaEw?w=293&h=188&c=7&r=0&o=5&dpr=1.3&pid=1.7",
+      "https://th.bing.com/th?id=OIP.-unRTdtPAE8NbOo_651fHwHaEo&w=316&h=197&c=8&rs=1&qlt=90&o=6&dpr=1.3&pid=3.1&rm=2",
+      "https://th.bing.com/th/id/OIP.SYTVucdvWZ9EbYjsWI_zpQHaEw?w=293&h=188&c=7&r=0&o=5&dpr=1.3&pid=1.7",
+      "https://th.bing.com/th/id/OIP.SYTVucdvWZ9EbYjsWI_zpQHaEw?w=293&h=188&c=7&r=0&o=5&dpr=1.3&pid=1.7"
+    ],
+    "description": "Davue Hotel Da Nang là nơi lý tưởng để bạn nghỉ dưỡng và thư giãn..."
+  },
+  {
+    "id": 2,
+    "name": "Orchidee's Ocean Hotel",
+    "location": "Phường Phước Mỹ, Quận Sơn Trà",
+    "price": 285887,
+    "images": [
+      "https://th.bing.com/th/id/OIP.SYTVucdvWZ9EbYjsWI_zpQHaEw?w=293&h=188&c=7&r=0&o=5&dpr=1.3&pid=1.7",
+      "https://th.bing.com/th?id=OIP.-unRTdtPAE8NbOo_651fHwHaEo&w=316&h=197&c=8&rs=1&qlt=90&o=6&dpr=1.3&pid=3.1&rm=2",
+      "https://th.bing.com/th/id/OIP.SYTVucdvWZ9EbYjsWI_zpQHaEw?w=293&h=188&c=7&r=0&o=5&dpr=1.3&pid=1.7",
+      "https://th.bing.com/th/id/OIP.SYTVucdvWZ9EbYjsWI_zpQHaEw?w=293&h=188&c=7&r=0&o=5&dpr=1.3&pid=1.7"
+    ],
+    "description": "Orchidee's Ocean Hotel là một nơi tuyệt vời để bạn tận hưởng..."
+  },
+  {
+    "id": 3,
+    "name": "Davues Hotel Da Nang",
+    "location": "Phường Mỹ An, Quận Ngũ Hành Sơn, Đà Nắng",
+    "price": 237187,
+    "images": [
+      "https://th.bing.com/th/id/OIP.SYTVucdvWZ9EbYjsWI_zpQHaEw?w=293&h=188&c=7&r=0&o=5&dpr=1.3&pid=1.7",
+      "https://th.bing.com/th?id=OIP.-unRTdtPAE8NbOo_651fHwHaEo&w=316&h=197&c=8&rs=1&qlt=90&o=6&dpr=1.3&pid=3.1&rm=2",
+      "https://th.bing.com/th/id/OIP.SYTVucdvWZ9EbYjsWI_zpQHaEw?w=293&h=188&c=7&r=0&o=5&dpr=1.3&pid=1.7",
+      "https://th.bing.com/th/id/OIP.SYTVucdvWZ9EbYjsWI_zpQHaEw?w=293&h=188&c=7&r=0&o=5&dpr=1.3&pid=1.7"
+    ],
+    "description": "Davue Hotel Da Nang là nơi lý tưởng để bạn nghỉ dưỡng và thư giãn..."
+  },
+  {
+    "id": 4,
+    "name": "Orchidee's Oceans Hotel",
+    "location": "Phường Phước Mỹ, Quận Sơn Trà",
+    "price": 285887,
+    "images": "https://ik.imagekit.io/tvlk/image/imageResource/2021/11/25/1637851894841-e5d7f8e7abc30ff0f1f07f6d7a64eac1.png?tr=q-75,w-320",
+    "description": "Orchidee's Ocean Hotel là một nơi tuyệt vời để bạn tận hưởng..."
+  },
+  {
+    "id": 5,
+    "name": "Davue Hotels Da Nang",
+    "location": "Phường Mỹ An, Quận Ngũ Hành Sơn,  Đà Nắng",
+    "price": 400000,
+    "images": "https://ik.imagekit.io/tvlk/image/imageResource/2021/11/25/1637851894841-e5d7f8e7abc30ff0f1f07f6d7a64eac1.png?tr=q-75,w-320",
+    "description": "Davue Hotel Da Nang là nơi lý tưởng để bạn nghỉ dưỡng và thư giãn..."
+  },
+  {
+    "id": 6,
+    "name": "Orchidee's Ocean Hotels",
+    "location": "Phường Phước Mỹ, Quận Sơn Trà",
+    "price": 285887,
+    "images": "https://ik.imagekit.io/tvlk/image/imageResource/2021/11/25/1637851894841-e5d7f8e7abc30ff0f1f07f6d7a64eac1.png?tr=q-75,w-320",
+    "description": "Orchidee's Ocean Hotel là một nơi tuyệt vời để bạn tận hưởng..."
+  }
+]
