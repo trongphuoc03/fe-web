@@ -14,6 +14,46 @@
 
     <style>
         /* Đặt kiểu cho cả hai nút */
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+        
+        .modal-content {
+            background-color: #fff;
+            margin: 15% auto;
+            padding: 20px;
+            border-radius: 10px;
+            width: 50%;
+        }
+        
+        .close {
+            color: #aaa;
+            font-size: 28px;
+            font-weight: bold;
+            position: absolute;
+            top: 10px;
+            right: 20px;
+        }
+        
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        
+        .hidden {
+            display: none;
+        }        
+
         .carousel-btn {
             background-color: rgba(140, 143, 147, 0.355);
             /* Màu nền nhạt cho nút */
@@ -39,6 +79,7 @@
             top: 100%;
             left: 0;
             z-index: 1000;
+            
         }
     </style>
 
@@ -55,12 +96,51 @@
                     <button class="bg-yellow-500 text-white px-4 py-2 rounded mb-2" onclick="showEditItemForm('Combo')">Edit Combo</button>
                     <button class="bg-red-500 text-white px-4 py-2 rounded" onclick="showDeleteItemForm('Combo')">Delete Combo</button>
                 </div>
-                <div class="bg-white p-4 rounded-lg shadow-md">
+                <div>
                     <h3 class="text-xl font-semibold mb-2">Activities</h3>
                     <button class="bg-blue-500 text-white px-4 py-2 rounded mb-2" onclick="showAddItemForm('Activity')">Add Activity</button>
                     <button class="bg-yellow-500 text-white px-4 py-2 rounded mb-2" onclick="showEditItemForm('Activity')">Edit Activity</button>
                     <button class="bg-red-500 text-white px-4 py-2 rounded" onclick="showDeleteItemForm('Activity')">Delete Activity</button>
                 </div>
+                
+                <!-- Add Activity Modal -->
+                <div id="addActivityModal" class="modal hidden">
+                    <div class="modal-content">
+                        <span class="close" onclick="closeModal('addActivityModal')">&times;</span>
+                        <h3>Add Activity</h3>
+                        <form id="addActivityForm">
+                            <input type="text" id="name" placeholder="Name" required />
+                            <input type="number" id="emptySlot" placeholder="Empty Slots" required />
+                            <input type="text" id="location" placeholder="Location" required />
+                            <textarea id="description" placeholder="Description" required></textarea>
+                            <input type="number" id="price" placeholder="Price" required />
+                            <input type="file" id="file" />
+                            <button type="button" onclick="createActivity()">Add Activity</button>
+                        </form>
+                    </div>
+                </div>
+                
+                <!-- Edit Activity Modal -->
+                <div id="editActivityModal" class="modal hidden">
+                    <div class="modal-content">
+                        <span class="close" onclick="closeModal('editActivityModal')">&times;</span>
+                        <h3>Edit Activity</h3>
+                        <div id="activityList"></div>
+                        <div id="editForm"></div>
+                    </div>
+                </div>
+                
+                <!-- Delete Activity Modal -->
+                <div id="deleteActivityModal" class="modal hidden">
+                    <div class="modal-content">
+                        <span class="close" onclick="closeModal('deleteActivityModal')">&times;</span>
+                        <h3>Delete Activity</h3>
+                        <div id="deleteList"></div>
+                        <button id="deleteYesButton" onclick="deleteActivity()">Yes</button>
+                        <button onclick="closeModal('deleteActivityModal')">Cancel</button>
+                    </div>
+                </div>
+                
                 <div class="bg-white p-4 rounded-lg shadow-md">
                     <h3 class="text-xl font-semibold mb-2">Flights</h3>
                     <button class="bg-blue-500 text-white px-4 py-2 rounded mb-2" onclick="showAddItemForm('Flight')">Add Flight</button>
@@ -109,6 +189,12 @@
                 <div id="statistics-result" class="mt-4"></div>
             </div>
         </section>
+
+        <!-- Section for displaying API response -->
+        <section id="api-response" class="mb-8">
+            <h2 class="text-2xl font-semibold mb-4">API Response</h2>
+            <div id="response" class="bg-gray-100 p-4 rounded-lg shadow-md"></div>
+        </section>
     </main>
 
     <!-- Popup form for adding items -->
@@ -155,7 +241,7 @@
     <script type="module" src="assets/js/components/header.js"></script>
     <script type="module" src="assets/js/components/auth.js"></script>
     <script type="module" src="assets/js/components/footer.js"></script>
-    <script type="module" src="assets/js/components/admin-dashboard.js"></script>
+    <script src="assets/js/components/admin-dashboard.js"></script>
 
 </body>
 

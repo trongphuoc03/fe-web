@@ -14,13 +14,14 @@ fetch('components/header.html')
             // Lấy thông tin người dùng từ localStorage
             const user = JSON.parse(localStorage.getItem('user'));
             console.log('Logged-in user:', user);
+            console.log('Role:', user.role);
 
             // Hiển thị phần tử khi đã đăng nhập
             document.getElementById('logged-in').classList.remove('hidden');
             document.getElementById('logged-out').classList.add('hidden');
 
             // Kiểm tra vai trò của người dùng và thay đổi nội dung menu
-            if (user.role === 'admin') {
+            if (user.role === 'Admin') {
                 // Nếu là admin, hiển thị các mục dành cho admin
                 document.getElementById('admin-menu').classList.remove('hidden');
 

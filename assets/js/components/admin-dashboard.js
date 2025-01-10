@@ -1,212 +1,149 @@
-// Function to show add item form
+async function callAPI(endpoint, method, body = null, isFile = false) {
+    const token = localStorage.getItem('token');
+    const headers = {
+        Authorization: `Bearer ${token}`,
+    };
+    if (!isFile) {
+        headers["Content-Type"] = "application/json";
+    }
+
+    const options = {
+        method: method,
+        headers: headers,
+    };
+
+    if (body) {
+        options.body = isFile ? body : JSON.stringify(body);
+    }
+
+    const response = await fetch(endpoint, options);
+    const result = await response.json();
+    document.getElementById("response").textContent = JSON.stringify(result, null, 2);
+    return response; // Ensure the response object is returned
+}
+
+function formatDateToYMDHIS(datetimeLocalValue) {
+    const date = new Date(datetimeLocalValue);
+    const year = date.getUTCFullYear();
+    const month = String(date.getUTCMonth() + 1).padStart(2, "0");
+    const day = String(date.getUTCDate()).padStart(2, "0");
+    const hours = String(date.getUTCHours()).padStart(2, "0");
+    const minutes = String(date.getUTCMinutes()).padStart(2, "0");
+    const seconds = String(date.getUTCSeconds()).padStart(2, "0");
+    return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+}
+
 function showAddItemForm(itemType) {
-    const popupForm = document.getElementById('item-add-form');
-    const itemTypeSpan = document.getElementById('item-type-add');
-    const addFormFields = document.getElementById('add-form-fields');
-
-    itemTypeSpan.textContent = itemType;
-    addFormFields.innerHTML = generateFormFields(itemType);
-
-    popupForm.classList.remove('hidden');
+    if (itemType === "Activity") {
+        document.getElementById("addActivityModal").style.display = "block";
+    }
 }
 
-// Function to show edit item form
 function showEditItemForm(itemType) {
-    const popupForm = document.getElementById('item-edit-form');
-    const itemTypeSpan = document.getElementById('item-type-edit');
-    const editFormFields = document.getElementById('edit-form-fields');
-
-    itemTypeSpan.textContent = itemType;
-    editFormFields.innerHTML = generateFormFields(itemType);
-
-    // Load existing data into form fields
-    loadItemData(itemType, editFormFields);
-
-    popupForm.classList.remove('hidden');
+    if (itemType === "Activity") {
+        getAllActivities("edit");
+    }
 }
 
-// Function to show delete item form
 function showDeleteItemForm(itemType) {
-    const itemListContainer = document.getElementById('item-list-container-delete');
-    const deletePopup = document.getElementById('item-delete-popup');
-    const itemTypeNameDelete = document.getElementById('item-type-name-delete');
-
-    itemTypeNameDelete.textContent = itemType;
-
-    // Load items to delete
-    loadItemData(itemType, itemListContainer, true);
-
-    deletePopup.classList.remove('hidden');
-}
-
-// Function to generate form fields based on item type
-function generateFormFields(itemType) {
-    switch (itemType) {
-        case 'Combo':
-            return `
-                <label for="name">Name:</label>
-                <input type="text" id="name" name="name" class="border rounded p-2 block w-full mb-4">
-                <label for="description">Description:</label>
-                <textarea id="description" name="description" class="border rounded p-2 block w-full mb-4"></textarea>
-                <label for="price">Price:</label>
-                <input type="number" id="price" name="price" class="border rounded p-2 block w-full mb-4">
-                <label for="location">Location:</label>
-                <input type="text" id="location" name="location" class="border rounded p-2 block w-full mb-4">
-                <label for="images">Images (comma separated URLs):</label>
-                <input type="text" id="images" name="images" class="border rounded p-2 block w-full mb-4">
-            `;
-        case 'Activity':
-            return `
-                <label for="name">Name:</label>
-                <input type="text" id="name" name="name" class="border rounded p-2 block w-full mb-4">
-                <label for="location">Location:</label>
-                <input type="text" id="location" name="location" class="border rounded p-2 block w-full mb-4">
-                <label for="price">Price:</label>
-                <input type="number" id="price" name="price" class="border rounded p-2 block w-full mb-4">
-                <label for="description">Description:</label>
-                <textarea id="description" name="description" class="border rounded p-2 block w-full mb-4"></textarea>
-                <label for="images">Images (comma separated URLs):</label>
-                <input type="text" id="images" name="images" class="border rounded p-2 block w-full mb-4">
-            `;
-        case 'Flight':
-            return `
-                <label for="brand">Brand:</label>
-                <input type="text" id="brand" name="brand" class="border rounded p-2 block w-full mb-4">
-                <label for="startLocation">Start Location:</label>
-                <input type="text" id="startLocation" name="startLocation" class="border rounded p-2 block w-full mb-4">
-                <label for="endLocation">End Location:</label>
-                <input type="text" id="endLocation" name="endLocation" class="border rounded p-2 block w-full mb-4">
-                <label for="startTime">Start Time:</label>
-                <input type="datetime-local" id="startTime" name="startTime" class="border rounded p-2 block w-full mb-4">
-                <label for="endTime">End Time:</label>
-                <input type="datetime-local" id="endTime" name="endTime" class="border rounded p-2 block w-full mb-4">
-                <label for="price">Price:</label>
-                <input type="number" id="price" name="price" class="border rounded p-2 block w-full mb-4">
-                <label for="availableSeats">Available Seats:</label>
-                <input type="number" id="availableSeats" name="availableSeats" class="border rounded p-2 block w-full mb-4">
-                <label for="image">Image URL:</label>
-                <input type="text" id="image" name="image" class="border rounded p-2 block w-full mb-4">
-            `;
-        case 'Hotel':
-            return `
-                <label for="name">Name:</label>
-                <input type="text" id="name" name="name" class="border rounded p-2 block w-full mb-4">
-                <label for="location">Location:</label>
-                <input type="text" id="location" name="location" class="border rounded p-2 block w-full mb-4">
-                <label for="price">Price:</label>
-                <input type="number" id="price" name="price" class="border rounded p-2 block w-full mb-4">
-                <label for="description">Description:</label>
-                <textarea id="description" name="description" class="border rounded p-2 block w-full mb-4"></textarea>
-                <label for="images">Images (comma separated URLs):</label>
-                <input type="text" id="images" name="images" class="border rounded p-2 block w-full mb-4">
-            `;
-        default:
-            return '';
+    if (itemType === "Activity") {
+        getAllActivities("delete");
     }
 }
 
-// Function to load item data into form fields
-function loadItemData(itemType, container, isDelete = false) {
-    fetch(`assets/data/${itemType.toLowerCase()}.json`)
-        .then(response => response.json())
-        .then(items => {
-            if (isDelete) {
-                container.innerHTML = '';
-                items.forEach(item => {
-                    const listItem = document.createElement('li');
-                    listItem.innerHTML = `${item.name} <button class="delete-item-button" data-id="${item.id}">🗑️</button>`;
-                    container.appendChild(listItem);
-                });
-
-                // Add event listeners to delete buttons
-                document.querySelectorAll('.delete-item-button').forEach(button => {
-                    button.addEventListener('click', () => deleteItem(itemType, button.getAttribute('data-id')));
-                });
-            } else {
-                // Populate form fields with item data for editing
-                const item = items[0]; // Assuming we are editing the first item for simplicity
-                for (const key in item) {
-                    const input = container.querySelector(`[name="${key}"]`);
-                    if (input) {
-                        input.value = item[key];
-                    }
-                }
-            }
-        })
-        .catch(error => console.error(`Error loading ${itemType} data:`, error));
+function closeModal(modalId) {
+    document.getElementById(modalId).style.display = "none";
 }
 
-// Function to delete item
-function deleteItem(itemType, itemId) {
-    fetch(`assets/data/${itemType.toLowerCase()}.json`)
-        .then(response => response.json())
-        .then(items => {
-            const updatedItems = items.filter(item => item.id !== itemId);
-            return fetch(`assets/data/${itemType.toLowerCase()}.json`, {
-                method: 'PUT',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(updatedItems)
-            });
-        })
-        .then(response => {
-            if (response.ok) {
-                alert(`${itemType} deleted successfully!`);
-                loadItemData(itemType, document.getElementById('item-list-container-delete'), true);
-            } else {
-                alert('Failed to delete ' + itemType);
-            }
-        })
-        .catch(error => console.error(`Error deleting ${itemType}:`, error));
+function createActivity() {
+    const formData = new FormData();
+    const file = document.getElementById("file").files[0];
+    formData.append("file", file);
+    formData.append("name", document.getElementById("name").value);
+    formData.append("emptySlot", document.getElementById("emptySlot").value);
+    formData.append("location", document.getElementById("location").value);
+    formData.append(
+        "description",
+        document.getElementById("description").value
+    );
+    formData.append("price", document.getElementById("price").value);
+
+    callAPI(
+        "https://symfony-9z0y.onrender.com/activities",
+        "POST",
+        formData,
+        true
+    );
+    closeModal("addActivityModal");
 }
 
-// Hàm tải dữ liệu đối tượng
-async function loadItemData(itemType) {
+async function getAllActivities(action) {
     try {
-        const response = await fetch(`assets/data/${itemType.toLowerCase()}.json`);
-        const items = await response.json();
-
-        const itemList = document.getElementById('item-list');
-        itemList.innerHTML = ''; // Xóa danh sách cũ
-
-        items.forEach(item => {
-            const listItem = document.createElement('li');
-            listItem.textContent = item.name;
-            itemList.appendChild(listItem);
-        });
-    } catch (error) {
-        console.error(`Error loading ${itemType} data:`, error);
-    }
-}
-
-// Function for calculating booking statistics
-function calculateStatistics() {
-    const startDate = new Date(document.getElementById('start-date').value);
-    const endDate = new Date(document.getElementById('end-date').value);
-
-    if (!startDate || !endDate || startDate > endDate) {
-        alert('Please select a valid date range.');
-        return;
-    }
-
-    const orders = JSON.parse(localStorage.getItem('Orders')) || [];
-    let totalOrders = 0;
-    let totalRevenue = 0;
-
-    orders.forEach(order => {
-        const bookingDate = new Date(order.Booking_Date);
-        if (bookingDate >= startDate && bookingDate <= endDate) {
-            totalOrders++;
-            totalRevenue += order.Total_Price;
+        const response = await callAPI("https://symfony-9z0y.onrender.com/activities/bulk", "GET");
+        const data = await response.json();
+        if (Array.isArray(data)) {
+            const list = action === "edit" ? document.getElementById("activityList") : document.getElementById("deleteList");
+            list.innerHTML = "";
+            data.forEach((activity) => {
+                const button = document.createElement("button");
+                button.innerHTML = activity.name;
+                button.onclick = () => {
+                    if (action === "edit") {
+                        showEditForm(activity.id);
+                    } else {
+                        confirmDelete(activity.id);
+                    }
+                };
+                list.appendChild(button);
+            });
+            document.getElementById(`${action}ActivityModal`).style.display = "block";
+        } else {
+            console.error("Data is not an array:", data);
         }
-    });
-
-    document.getElementById('statistics-result').innerHTML = `
-        <p>Total Orders: ${totalOrders}</p>
-        <p>Total Revenue: ${totalRevenue.toLocaleString()} VNĐ</p>
-    `;
+    } catch (error) {
+        console.error("Error fetching activities:", error);
+    }
 }
 
-window.showAddItemForm = showAddItemForm;
-window.showEditItemForm = showEditItemForm;
-window.showDeleteItemForm = showDeleteItemForm;
-window.calculateStatistics = calculateStatistics;
+function showEditForm(id) {
+    callAPI(`https://symfony-9z0y.onrender.com/activities/${id}`, "GET").then(
+        (activity) => {
+            const editForm = document.getElementById("editForm");
+            editForm.innerHTML = `
+                <input type="text" id="updateName" value="${activity.name}" />
+                <input type="number" id="updateEmptySlot" value="${activity.emptySlot}" />
+                <input type="text" id="updateLocation" value="${activity.location}" />
+                <textarea id="updateDescription">${activity.description}</textarea>
+                <input type="number" id="updatePrice" value="${activity.price}" />
+                <button type="button" onclick="updateActivity(${id})">Update Activity</button>
+            `;
+        }
+    );
+}
+
+function updateActivity(id) {
+    const body = {
+        name: document.getElementById("updateName").value,
+        emptySlot: document.getElementById("updateEmptySlot").value,
+        location: document.getElementById("updateLocation").value,
+        description: document.getElementById("updateDescription").value,
+        price: document.getElementById("updatePrice").value,
+    };
+    callAPI(
+        `https://symfony-9z0y.onrender.com/activities/${id}`,
+        "PATCH",
+        body
+    );
+    closeModal("editActivityModal");
+}
+
+function confirmDelete(id) {
+    document.getElementById("deleteYesButton").onclick = () =>
+        deleteActivity(id);
+    document.getElementById("deleteActivityModal").style.display = "block";
+}
+
+function deleteActivity(id) {
+    callAPI(`https://symfony-9z0y.onrender.com/activities/${id}`, "DELETE");
+    closeModal("deleteActivityModal");
+}

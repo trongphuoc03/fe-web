@@ -25,10 +25,6 @@
         .carousel-btn:hover {
             background-color: rgba(55, 65, 81, 1);
             /* Màu nền đậm hơn */
-        }
-
-        /* Cũng có thể chỉnh thêm nếu muốn nút nổi bật hơn khi hover */
-        .carousel-btn:hover {
             transform: scale(1.1);
             /* Làm nút phóng to một chút khi hover */
         }
@@ -48,9 +44,9 @@
             <!-- Phần tìm kiếm -->
             <div class="w-1/4 bg-white p-5 rounded-lg shadow-md mr-4">
                 <h2 class="text-xl font-semibold mb-4">Tìm kiếm gói combo</h2>
-                <div>
-                    <label for="location" class="block text-sm font-medium text-gray-700">Địa điểm</label>
-                    <input type="text" id="location" class="block w-full border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-1" placeholder="Nhập địa điểm">
+                <div class="mt-4">
+                    <label for="averageRating" class="block text-sm font-medium text-gray-700">Đánh giá trung bình</label>
+                    <input type="number" id="averageRating" class="block w-full border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-1" placeholder="Nhập đánh giá trung bình">
                 </div>
                 <div class="mt-4">
                     <label for="price" class="block text-sm font-medium text-gray-700">Giá tối đa</label>

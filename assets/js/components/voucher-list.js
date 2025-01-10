@@ -1,5 +1,6 @@
+
 document.addEventListener('DOMContentLoaded', async () => {
-    // Lấy thông tin người dùng từ sessionStorage
+    // Lấy thông tin người dùng từ localStorage
     const user = JSON.parse(localStorage.getItem('user'));
 
     if (!user) {
@@ -11,9 +12,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     const voucherContainer = document.getElementById('voucher-container');
 
     try {
-        // Lấy danh sách các voucher từ promos.json
-        const response = await fetch('assets/data/promos.json');
-        const promos = await response.json();
+        // Lấy danh sách các voucher từ API
+        const promos = await callAPI('https://symfony-9z0y.onrender.com/promos/bulk', 'GET');
 
         // Lưu trữ dữ liệu promos trong sessionStorage
         sessionStorage.setItem('promos', JSON.stringify(promos));
@@ -65,3 +65,29 @@ function usePromo(promoId) {
 }
 
 window.usePromo = usePromo;
+
+async function callAPI(endpoint, method, body = null, isFile = false) {
+    const token = localStorage.getItem('token');
+    const headers = {
+        'Authorization': `Bearer ${token}`
+    };
+    if (!isFile) {
+        headers['Content-Type'] = 'application/json';
+    }
+
+    const options = {
+        method: method,
+        headers: headers,
+    };
+
+    if (body) {
+        options.body = isFile ? body : JSON.stringify(body);
+    }
+
+    const response = await fetch(endpoint, options);
+    if (response.ok) {
+        return await response.json();
+    } else {
+        throw new Error(`Error: ${response.status} ${response.statusText}`);
+    }
+}

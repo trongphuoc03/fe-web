@@ -1,16 +1,12 @@
 document.addEventListener('DOMContentLoaded', async () => {
     const user = JSON.parse(localStorage.getItem('user'));
-    const promoId = new URLSearchParams(window.location.search).get('promoId');
     const ordersContainer = document.getElementById('orders-container');
 
     try {
-        const ordersResponse = await fetch('assets/data/booking.json');
-        const orders = await ordersResponse.json();
+        const orders = await callAPI('https://symfony-9z0y.onrender.com/bookings/bulk', 'GET');
+        const promos = await callAPI('https://symfony-9z0y.onrender.com/promos/bulk', 'GET');
 
-        const promosResponse = await fetch('assets/data/promos.json');
-        const promos = await promosResponse.json();
-
-        const userOrders = orders.filter(order => order.User_ID === user.id);
+        const userOrders = orders.filter(order => order.booking.userId === user.id);
 
         if (userOrders.length === 0) {
             ordersContainer.innerHTML = '<p>No orders found.</p>';
@@ -18,7 +14,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
 
         userOrders.forEach((order, index) => {
-            const promo = promos.find(promo => promo.id === order.Promo_ID);
+            const promo = promos.find(promo => promo.id === order.booking.promoId);
             const promoName = promo ? promo.name : 'No Promo';
 
             ordersContainer.innerHTML += `
@@ -28,12 +24,12 @@ document.addEventListener('DOMContentLoaded', async () => {
                             <h3 class="text-xl font-semibold">
                                 Order ID: ${index + 1}
                             </h3>
-                            <p class="text-sm text-gray-700 mt-2">Total Price: ${order.Total_Price.toLocaleString()} VNĐ</p>
-                            <p class="text-sm text-gray-700 mt-2">Booking Date: ${new Date(order.Booking_Date).toLocaleDateString()}</p>
+                            <p class="text-sm text-gray-700 mt-2">Total Price: ${order.booking.totalPrice.toLocaleString()} VNĐ</p>
+                            <p class="text-sm text-gray-700 mt-2">Booking Date: ${new Date(order.booking.bookingDate).toLocaleDateString()}</p>
                             <p class="text-sm text-gray-700 mt-2">Promo: ${promoName}</p>
-                            <p class="text-sm text-gray-700 mt-2">Status: ${order.Status}</p>
+                            <p class="text-sm text-gray-700 mt-2">Status: ${order.booking.status}</p>
                         </div>
-                        <button class="bg-blue-500 text-white px-4 py-2 rounded" onclick="redirectToPayment(${order.Booking_ID}, ${promoId})">Payment</button>
+                        <button class="bg-blue-500 text-white px-4 py-2 rounded" onclick="redirectToPayment(${order.booking.id}, ${order.booking.promoId})">Payment</button>
                     </div>
                 </div>
             `;
@@ -54,3 +50,40 @@ function redirectToPayment(orderId, promoId) {
 }
 
 window.redirectToPayment = redirectToPayment;
+
+async function callAPI(endpoint, method, body = null, isFile = false) {
+    const token = localStorage.getItem('token');
+    const headers = {
+        'Authorization': `Bearer ${token}`
+    };
+    if (!isFile) {
+        headers['Content-Type'] = 'application/json';
+    }
+
+    const options = {
+        method: method,
+        headers: headers,
+    };
+
+    if (body) {
+        options.body = isFile ? body : JSON.stringify(body);
+    }
+
+    const response = await fetch(endpoint, options);
+    if (response.ok) {
+        return await response.json();
+    } else {
+        throw new Error(`Error: ${response.status} ${response.statusText}`);
+    }
+}
+
+function formatDateToYMDHIS(datetimeLocalValue) {
+    const date = new Date(datetimeLocalValue);
+    const year = date.getUTCFullYear();
+    const month = String(date.getUTCMonth() + 1).padStart(2, '0');
+    const day = String(date.getUTCDate()).padStart(2, '0');
+    const hours = String(date.getUTCHours()).padStart(2, '0');
+    const minutes = String(date.getUTCMinutes()).padStart(2, '0');
+    const seconds = String(date.getUTCSeconds()).padStart(2, '0');
+    return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+}

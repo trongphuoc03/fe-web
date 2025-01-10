@@ -1,21 +1,52 @@
-// Hàm lấy dữ liệu từ file JSON
 let combos = [];
+let filteredCombos = []; // Biến lưu trữ kết quả lọc
+let currentPage = 1; // Trang hiện tại
+const itemsPerPage = 5; // Số mục trên mỗi trang
 
-Promise.all([
-    fetch('assets/data/combos.json').then(response => response.json()),
-    fetch('assets/data/feedback.json').then(response => response.json())
-])
-.then(([comboData, feedbackData]) => {
-    combos = comboData;
-    
-    // Gán rating trung bình cho từng combo
-    combos.forEach(combo => {
-        combo.averageRating = calculateAverageRating(feedbackData, combo.id);
-    });
-    
-    renderComboList(combos); // Hiển thị toàn bộ combo khi mới vào trang
-})
-.catch(error => console.error('Lỗi khi tải dữ liệu:', error));
+async function callAPI(endpoint, method, body = null, isFile = false) {
+    const token = localStorage.getItem('token');
+    const headers = {
+        'Authorization': `Bearer ${token}`
+    };
+    if (!isFile) {
+        headers['Content-Type'] = 'application/json';
+    }
+
+    const options = {
+        method: method,
+        headers: headers,
+    };
+
+    if (body) {
+        options.body = isFile ? body : JSON.stringify(body);
+    }
+
+    const response = await fetch(endpoint, options);
+    if (response.ok) {
+        return await response.json();
+    } else {
+        throw new Error(`Error: ${response.status} ${response.statusText}`);
+    }
+}
+
+async function getAllCombos() {
+    try {
+        const comboData = await callAPI('https://symfony-9z0y.onrender.com/combos/bulk', 'GET');
+        combos = comboData;
+        console.log('Danh sách combo:', combos);
+
+        // Fetch feedback for each combo
+        for (const combo of combos) {
+            const feedbackData = await callAPI(`https://symfony-9z0y.onrender.com/feedbacks/combo/${combo.comboId}`, 'GET');
+            combo.averageRating = calculateAverageRating(feedbackData, combo.comboId);
+        }
+
+        filteredCombos = combos; // Ban đầu, hiển thị tất cả các combo
+        renderComboList(filteredCombos); // Hiển thị danh sách combo khi mới vào trang
+    } catch (error) {
+        console.error('Lỗi khi tải dữ liệu:', error);
+    }
+}
 
 // Hàm tính trung bình rating
 function calculateAverageRating(feedbacks, comboId) {
@@ -27,29 +58,32 @@ function calculateAverageRating(feedbacks, comboId) {
 }
 
 // Hàm hiển thị danh sách gói combo
-function renderComboList(filteredCombos) {
+function renderComboList(combosList) {
     const comboList = document.getElementById('combo-list');
     comboList.innerHTML = ''; // Xóa danh sách hiện tại
 
-    if (filteredCombos.length === 0) {
+    const start = (currentPage - 1) * itemsPerPage;
+    const end = start + itemsPerPage;
+    const paginatedCombos = combosList.slice(start, end);
+
+    if (paginatedCombos.length === 0) {
         comboList.innerHTML = `<p class="text-gray-500">Không tìm thấy gói combo phù hợp.</p>`;
+        renderPagination(0); // Không hiển thị phân trang nếu không có combo
         return;
     }
 
-    filteredCombos.forEach(combo => {
+    paginatedCombos.forEach(combo => {
         comboList.innerHTML += `
             <div class="bg-white p-4 rounded-lg shadow-md w-full">
                 <div class="flex">
                     <!-- Ảnh Gói Combo -->
-                    <img src="${combo.images[0]}" alt="${combo.name}" class="w-32 h-32 object-cover rounded-lg mr-4">
+                    <img src="${combo.imgUrl}" alt="${combo.name}" class="w-32 h-32 object-cover rounded-lg mr-4">
                     
                     <!-- Thông tin gói combo -->
                     <div class="flex-1">
                         <h3 class="text-xl font-semibold">
-                             <a href="combo-detail.html?id=${combo.id}" class="text-indigo-600 hover:underline">${combo.name}</a>    
-                        
+                             <a href="combo-detail.html?id=${combo.comboId}" class="text-indigo-600 hover:underline">${combo.name}</a>    
                         </h3>
-                        
                         
                         <!-- Hiển thị đánh giá trung bình -->
                         <div class="rating  flex items-center">
@@ -59,27 +93,67 @@ function renderComboList(filteredCombos) {
                             </svg>
                         </div>
                         <p class="text-sm text-gray-700 mt-2"> ${combo.price.toLocaleString()} VNĐ</p>
-                       
                     </div>
                 </div>
             </div>
         `;
     });
+
+    renderPagination(combosList.length);
+}
+
+// Hàm phân trang
+function renderPagination(totalItems) {
+    const pagination = document.getElementById('pagination');
+    const totalPages = Math.ceil(totalItems / itemsPerPage);
+    if (totalItems === 0 || totalPages <= 1) {
+        pagination.innerHTML = ''; // Không cần pagination nếu chỉ có 1 trang
+        return;
+    }
+
+    const prevButton = `<a id="prev-btn" href="#" class="flex items-center justify-center px-3 h-8 text-sm font-medium ${currentPage === 1 ? 'text-gray-300' : 'text-gray-500'}">
+        <svg class="w-3.5 h-3.5 me-2 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 5H1m0 0 4 4M1 5l4-4"/>
+        </svg>
+    </a>`;
+    const nextButton = `<a id="next-btn" href="#" class="flex items-center justify-center px-3 h-8 text-sm font-medium ${currentPage === totalPages ? 'text-gray-300' : 'text-gray-500'}">
+        <svg class="w-3.5 h-3.5 ms-2 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9"/>
+        </svg>
+    </a>`;
+    pagination.innerHTML = prevButton + nextButton;
+
+    document.getElementById('prev-btn').addEventListener('click', function (e) {
+        e.preventDefault();
+        if (currentPage > 1) {
+            currentPage--;
+            renderComboList(filteredCombos);
+        }
+    });
+
+    document.getElementById('next-btn').addEventListener('click', function (e) {
+        e.preventDefault();
+        if (currentPage < totalPages) {
+            currentPage++;
+            renderComboList(filteredCombos);
+        }
+    });
 }
 
 // Hàm lọc gói combo theo điều kiện
 function applyFilter() {
-    const location = document.getElementById('location').value.trim().toLowerCase();
+    const averageRatingInput = document.getElementById('averageRating');
+    const averageRating = averageRatingInput ? parseFloat(averageRatingInput.value.trim()) : NaN;
     const price = parseInt(document.getElementById('price').value.trim(), 10);
 
-    const filteredCombos = combos.filter(combo => {
-        const matchesLocation = combo.location.toLowerCase().includes(location); // Lọc theo tên gói combo
+    filteredCombos = combos.filter(combo => {
+        const matchesRating = isNaN(averageRating) || parseFloat(combo.averageRating) >= averageRating; // Lọc theo đánh giá trung bình
         const matchesPrice = isNaN(price) || combo.price <= price; // Lọc theo giá
 
-        return matchesLocation && matchesPrice;
+        return matchesRating && matchesPrice;
     });
 
-    // Hiển thị danh sách gói combo đã lọc
+    currentPage = 1; // Đặt lại trang khi lọc lại
     renderComboList(filteredCombos);
 }
 
@@ -87,7 +161,7 @@ function applyFilter() {
 function applySort() {
     const sortOption = document.getElementById('sort').value;
 
-    let sortedCombos = [...combos];
+    let sortedCombos = [...filteredCombos]; // Sử dụng danh sách đã lọc để sắp xếp
 
     switch (sortOption) {
         case 'price-asc':
@@ -97,12 +171,30 @@ function applySort() {
             sortedCombos.sort((a, b) => b.price - a.price);
             break;
         case 'rating-desc':
-            sortedCombos.sort((a, b) => b.averageRating - a.averageRating);  // Sửa lại từ sortedHotels thành sortedCombos
+            sortedCombos.sort((a, b) => b.averageRating - a.averageRating);
             break;
         default:
             break;
     }
 
-    // Hiển thị danh sách gói combo đã sắp xếp
-    renderComboList(sortedCombos);
+    filteredCombos = sortedCombos; // Cập nhật lại danh sách đã sắp xếp
+    currentPage = 1; // Đặt lại trang khi sắp xếp lại
+    renderComboList(filteredCombos);
 }
+
+// Hàm định dạng thời gian
+function formatDateToYMDHIS(datetimeLocalValue) {
+    const date = new Date(datetimeLocalValue);
+    const year = date.getUTCFullYear();
+    const month = String(date.getUTCMonth() + 1).padStart(2, '0');
+    const day = String(date.getUTCDate()).padStart(2, '0');
+    const hours = String(date.getUTCHours()).padStart(2, '0');
+    const minutes = String(date.getUTCMinutes()).padStart(2, '0');
+    const seconds = String(date.getUTCSeconds()).padStart(2, '0');
+    return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+}
+
+// Gọi hàm để lấy dữ liệu khi trang được tải
+document.addEventListener('DOMContentLoaded', () => {
+    getAllCombos();
+});

@@ -1,25 +1,64 @@
-// Dữ liệu chuyến bay
 let flights = [];
-fetch('assets/data/flight.json')
-    .then(response => response.json())
-    .then(data => {
-        flights = data;
-        renderFlightList(flights); // Hiển thị toàn bộ chuyến bay khi mới vào trang
-    })
-    .catch(error => console.error('Lỗi khi tải dữ liệu:', error));
+let filteredFlights = []; // Biến lưu trữ kết quả lọc
+let currentPage = 1; // Trang hiện tại
+const itemsPerPage = 5; // Số mục trên mỗi trang
+
+async function callAPI(endpoint, method, body = null, isFile = false) {
+    const token = localStorage.getItem('token');
+    const headers = {
+        'Authorization': `Bearer ${token}`
+    };
+    if (!isFile) {
+        headers['Content-Type'] = 'application/json';
+    }
+
+    const options = {
+        method: method,
+        headers: headers,
+    };
+
+    if (body) {
+        options.body = isFile ? body : JSON.stringify(body);
+    }
+
+    const response = await fetch(endpoint, options);
+    if (response.ok) {
+        return await response.json();
+    } else {
+        throw new Error(`Error: ${response.status} ${response.statusText}`);
+    }
+}
+
+async function getAllFlights() {
+    try {
+        const flightData = await callAPI('https://symfony-9z0y.onrender.com/flights/bulk', 'GET');
+        flights = flightData;
+        console.log('Danh sách chuyến bay:', flights);
+
+        filteredFlights = flights; // Ban đầu, hiển thị tất cả các chuyến bay
+        renderFlightList(filteredFlights); // Hiển thị danh sách chuyến bay khi mới vào trang
+    } catch (error) {
+        console.error('Lỗi khi tải dữ liệu:', error);
+    }
+}
 
 // Hàm hiển thị danh sách chuyến bay
-function renderFlightList(filteredFlights) {
+function renderFlightList(flightsList) {
     const passengerCount = document.getElementById('passengerCount').value;
     const flightList = document.getElementById('flight-list');
     flightList.innerHTML = ''; // Xóa danh sách hiện tại
 
-    if (filteredFlights.length === 0) {
+    const start = (currentPage - 1) * itemsPerPage;
+    const end = start + itemsPerPage;
+    const paginatedFlights = flightsList.slice(start, end);
+
+    if (paginatedFlights.length === 0) {
         flightList.innerHTML = `<p class="text-gray-500">Không tìm thấy chuyến bay phù hợp.</p>`;
+        renderPagination(0); // Không hiển thị phân trang nếu không có chuyến bay
         return;
     }
 
-    filteredFlights.forEach(flight => {
+    paginatedFlights.forEach(flight => {
         flightList.innerHTML += `
             <div class="flex bg-white p-4  rounded-lg shadow-md w-full flex items-center space-x-4">
                 <div class="flex" style="width:20%">
@@ -34,19 +73,19 @@ function renderFlightList(filteredFlights) {
                 <div class="flex items-center" style="width:50%">
                     <div lass="flex-1" style="width:40%">
                     <p class="text-sm text-gray-500">${flight.startLocation} </p>
-                    <p class="text-sm text-gray-500">${new Date(flight.startTime).toLocaleString()}</p>
+                    <p class="text-sm text-gray-500">${formatDateToYMDHIS(flight.startTime)}</p>
                     </div>
 
                     <svg class="w-6 h-6 text-gray-800 dark:text-white mr-4 ml-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                     width="24" height="24" fill="none" viewBox="0 0 24 24">
                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M19 12H5m14 0-4 4m4-4-4-4" />
+                        d="M19 12H5m14 0-4 4m0-4-4-4" />
                     </svg>
 
 
                     <div class="flex-1 p-6" style="width:30%">
                     <p class="text-sm text-gray-500">${flight.endLocation} </p>
-                    <p class="text-sm text-gray-500">${new Date(flight.endTime).toLocaleString()}</p>
+                    <p class="text-sm text-gray-500">${formatDateToYMDHIS(flight.endTime)}</p>
                     </div>
                 </div>
 
@@ -59,6 +98,46 @@ function renderFlightList(filteredFlights) {
                 </div>
             </div>
         `;
+    });
+
+    renderPagination(flightsList.length);
+}
+
+// Hàm phân trang
+function renderPagination(totalItems) {
+    const pagination = document.getElementById('pagination');
+    const totalPages = Math.ceil(totalItems / itemsPerPage);
+    if (totalItems === 0 || totalPages <= 1) {
+        pagination.innerHTML = ''; // Không cần pagination nếu chỉ có 1 trang
+        return;
+    }
+
+    const prevButton = `<a id="prev-btn" href="#" class="flex items-center justify-center px-3 h-8 text-sm font-medium ${currentPage === 1 ? 'text-gray-300' : 'text-gray-500'}">
+        <svg class="w-3.5 h-3.5 me-2 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 5H1m0 0 4 4M1 5l4-4"/>
+        </svg>
+    </a>`;
+    const nextButton = `<a id="next-btn" href="#" class="flex items-center justify-center px-3 h-8 text-sm font-medium ${currentPage === totalPages ? 'text-gray-300' : 'text-gray-500'}">
+        <svg class="w-3.5 h-3.5 ms-2 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9"/>
+        </svg>
+    </a>`;
+    pagination.innerHTML = prevButton + nextButton;
+
+    document.getElementById('prev-btn').addEventListener('click', function (e) {
+        e.preventDefault();
+        if (currentPage > 1) {
+            currentPage--;
+            renderFlightList(filteredFlights);
+        }
+    });
+
+    document.getElementById('next-btn').addEventListener('click', function (e) {
+        e.preventDefault();
+        if (currentPage < totalPages) {
+            currentPage++;
+            renderFlightList(filteredFlights);
+        }
     });
 }
 
@@ -102,7 +181,7 @@ function applyFilter() {
     const price = parseInt(document.getElementById('price').value.trim(), 10);
 
     // Lọc danh sách chuyến bay theo tiêu chí tìm kiếm
-    const filteredFlights = flights.filter(flight => {
+    filteredFlights = flights.filter(flight => {
         const matchesStartLocation = flight.startLocation.toLowerCase().includes(startLocation);
         const matchesEndLocation = flight.endLocation.toLowerCase().includes(endLocation);
         const matchesStartDate = new Date(flight.startTime).toISOString().slice(0, 10) === startDate;
@@ -112,17 +191,20 @@ function applyFilter() {
         return matchesStartLocation && matchesEndLocation && matchesStartDate && matchesBrand && matchesPrice;
     });
 
-    // Lấy giá trị sắp xếp từ dropdown
-    const sortValue = document.getElementById('sort').value;
-
-    if (sortValue === 'price-asc') {
-        filteredFlights.sort((a, b) => a.price - b.price); // Giá tăng dần
-    } else if (sortValue === 'price-desc') {
-        filteredFlights.sort((a, b) => b.price - a.price); // Giá giảm dần
-    }
-
-    // Hiển thị danh sách chuyến bay đã lọc và sắp xếp
+    currentPage = 1; // Đặt lại trang khi lọc lại
     renderFlightList(filteredFlights);
+}
+
+// Hàm định dạng thời gian
+function formatDateToYMDHIS(datetimeLocalValue) {
+    const date = new Date(datetimeLocalValue);
+    const year = date.getUTCFullYear();
+    const month = String(date.getUTCMonth() + 1).padStart(2, '0');
+    const day = String(date.getUTCDate()).padStart(2, '0');
+    const hours = String(date.getUTCHours()).padStart(2, '0');
+    const minutes = String(date.getUTCMinutes()).padStart(2, '0');
+    const seconds = String(date.getUTCSeconds()).padStart(2, '0');
+    return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
 }
 
 // Hàm để tăng số lượng hành khách
@@ -143,3 +225,8 @@ document.getElementById('decrement-button').addEventListener('click', function (
 
 // Hàm xử lý khi thay đổi lựa chọn sắp xếp
 document.getElementById('sort').addEventListener('change', applyFilter);
+
+// Gọi hàm để lấy dữ liệu khi trang được tải
+document.addEventListener('DOMContentLoaded', () => {
+    getAllFlights();
+});

@@ -12,45 +12,36 @@
         /* Đặt kiểu cho cả hai nút */
         .carousel-btn {
             background-color: rgba(140, 143, 147, 0.355);
-            /* Màu nền nhạt cho nút */
             transition: background-color 0.3s ease;
-            /* Hiệu ứng chuyển màu mượt mà */
         }
 
-        /* Khi hover vào nút, thay đổi màu nền */
         .carousel-btn:hover {
             background-color: rgba(55, 65, 81, 1);
-            /* Màu nền đậm hơn */
-        }
-
-        /* Cũng có thể chỉnh thêm nếu muốn nút nổi bật hơn khi hover */
-        .carousel-btn:hover {
             transform: scale(1.1);
-            /* Làm nút phóng to một chút khi hover */
         }
 
-        /* CSS cho dropdown menu */
         #dropdownHover {
             position: absolute;
             top: 100%;
             left: 0;
             z-index: 1000;
         }
-    </style>
 
-    <style>
         .profile-container {
-            margin: 2rem auto; /* Giãn cách so với header và footer */
-            padding-top: 4rem; /* Thêm khoảng cách phía trên để tránh bị che bởi header */
+            margin: 2rem auto;
+            padding-top: 4rem;
         }
+
         .profile-label {
-            font-size: 1.25rem; /* Chữ to hơn */
-            text-align: center; /* Căn giữa */
+            font-size: 1.25rem;
+            text-align: center;
         }
+
         .profile-value {
-            font-size: 1.25rem; /* Chữ to hơn */
-            text-align: center; /* Căn giữa */
+            font-size: 1.25rem;
+            text-align: center;
         }
+
         .profile-button {
             display: block;
             margin: 0.5rem auto;
@@ -80,10 +71,6 @@
                 <label class="block text-sm font-medium text-gray-700 profile-label">Address</label>
                 <p id="address" class="mt-1 block w-full profile-value"></p>
             </div>
-            <div class="mb-4">
-                <label class="block text-sm font-medium text-gray-700 profile-label">Membership Level</label>
-                <p id="membershipLevel" class="mt-1 block w-full profile-value"></p>
-            </div>
             <button id="edit-profile" class="bg-blue-500 text-white px-4 py-2 rounded profile-button">Edit Profile</button>
         </div>
 
@@ -111,22 +98,6 @@
         <h2 class="text-2xl font-bold mt-8 mb-4 text-center">Change Password</h2>
         <button id="change-password" class="bg-blue-500 text-white px-4 py-2 rounded profile-button">Change Password</button>
 
-        <!-- Popup yêu cầu nhập mật khẩu hiện tại -->
-        <div id="password-popup" class="hidden fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center">
-            <div class="bg-white p-6 rounded-lg shadow-lg">
-                <h3 class="text-lg font-bold mb-4 text-center">Enter Current Password</h3>
-                <form id="current-password-form">
-                    <div class="mb-4">
-                        <label for="current-password" class="block text-sm font-medium text-gray-700 profile-label">Current Password</label>
-                        <input type="password" id="current-password" name="current-password" class="mt-1 block w-full" required>
-                    </div>
-                    <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded profile-button">Submit</button>
-                    <button type="button" id="cancel-password-popup" class="bg-gray-500 text-white px-4 py-2 rounded profile-button">Cancel</button>
-                </form>
-            </div>
-        </div>
-
-        <!-- Popup thay đổi mật khẩu -->
         <div id="change-password-popup" class="hidden fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center">
             <div class="bg-white p-6 rounded-lg shadow-lg">
                 <h3 class="text-lg font-bold mb-4 text-center">Change Password</h3>

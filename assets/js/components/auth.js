@@ -61,76 +61,53 @@ export async function checkLoginStatus() {
   }
   
   // Xử lý submit form register
-  export async function handleRegister(event) {
-      event.preventDefault();
-  
-      const username = document.getElementById('name').value;
-      const email = document.getElementById('email-register').value;
-      const password = document.getElementById('password-register').value;
-  
-      console.log('Register attempt with email:', email);
-  
-      try {
-          const response = await fetch('https://symfony-9z0y.onrender.com/signup', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({
-                  username: username,
-                  password: password,
-                  email: email,
-              }),
-          });
-  
-          if (!response.ok) {
-              const errorDetails = await response.json();
-              console.error('Error details:', errorDetails);
-              alert(`Registration failed: ${errorDetails.message || 'Unknown error'}`);
-              return;
-          }
-  
-          const result = await response.json();
-          console.log('API Response:', result);
-  
-          if (result.success) {
-              alert('Registration successful! Please log in.');
-              document.getElementById('register-form').style.display = 'none';
-              document.getElementById('login-form').style.display = 'block';
-              document.getElementById('form-title').textContent = 'Sign in to your account';
-          } else {
-              alert(`Registration failed: ${result.message || 'Unknown error'}`);
-          }
-      } catch (error) {
-          console.error('Error during registration:', error);
-          alert('An error occurred during registration. Please try again later.');
-      }
-  }
-  
-  
-  // Hàm lấy danh sách người dùng
-  export async function getAllUsers() {
-    const token = localStorage.getItem("token");
-  
+export async function handleRegister(event) {
+    event.preventDefault();
+
+    const username = document.getElementById('name').value;
+    const email = document.getElementById('email-register').value;
+    const password = document.getElementById('password-register').value;
+
+    console.log('Register attempt with email:', email);
+
     try {
-      const response = await fetch(
-        "https://symfony-9z0y.onrender.com/users/bulk",
-        {
-          method: "GET",
-          headers: { Authorization: `Bearer ${token}` },
+        const response = await fetch('https://symfony-9z0y.onrender.com/signup', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                username: username,
+                password: password,
+                email: email,
+            }),
+        });
+
+        if (!response.ok) {
+            const errorDetails = await response.json();
+            console.error('Error details:', errorDetails);
+            alert(`Registration failed: ${errorDetails.message || 'Unknown error'}`);
+            return;
         }
-      );
-  
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-  
-      const users = await response.json();
-      console.log("Users:", users);
-      // Hiển thị danh sách người dùng nếu cần
+
+        const result = await response.json();
+        console.log('API Response:', result);
+
+        // Kiểm tra xem phản hồi có chứa dữ liệu người dùng (id) không
+        if (result.id) {
+            alert('Registration successful! Please log in.');
+            document.getElementById('register-form').style.display = 'none';
+            document.getElementById('login-form').style.display = 'block';
+            document.getElementById('form-title').textContent = 'Sign in to your account';
+        } else {
+            alert(`Registration failed: ${result.message || 'Unknown error'}`);
+        }
     } catch (error) {
-      console.error("Error fetching users:", error);
+        console.error('Error during registration:', error);
+        alert('An error occurred during registration. Please try again later.');
     }
-  }
+}
+
   
+
   // Gắn sự kiện submit cho form
   document.addEventListener("DOMContentLoaded", () => {
     const loginForm = document.getElementById("login-form");
