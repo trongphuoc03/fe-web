@@ -19,8 +19,12 @@ document.addEventListener("DOMContentLoaded", async () => {
       "https://symfony-9z0y.onrender.com/promos/bulk",
       "GET"
     );
+    const bookingDetail = await callAPI(
+      `https://symfony-9z0y.onrender.com/booking-details/${order.bookingDetail}`,
+      "GET"
+    );
     console.log("Order:", order);
-    console.log("Booking Details", order.bookingDetail);
+    console.log("Booking Details", bookingDetail);
     console.log("Promos:", promos);
 
     let promo = null;
@@ -90,25 +94,28 @@ document.addEventListener("DOMContentLoaded", async () => {
 <div class="bg-white p-4 rounded-lg shadow-md w-full mb-4">
     <h3 class="text-xl font-semibold">Order Details</h3>
     <p class="text-sm text-gray-700 mt-2">Booking Detail ID: ${
-      order.bookingDetail.id
+      bookingDetail.id
     }</p>
     <p class="text-sm text-gray-700 mt-2">Flight ID: ${
-      order.bookingDetail.flightId || "N/A"
+      bookingDetail.flightId || "N/A"
     }</p>
     <p class="text-sm text-gray-700 mt-2">Hotel ID: ${
-      order.bookingDetail.hotelId || "N/A"
+      bookingDetail.hotelId || "N/A"
     }</p>
     <p class="text-sm text-gray-700 mt-2">Activity ID: ${
-      order.bookingDetail.activityId || "N/A"
+      bookingDetail.activityId || "N/A"
+    }</p>
+      <p class="text-sm text-gray-700 mt-2">Combo ID: ${
+      bookingDetail.comboId || "N/A"
     }</p>
     <p class="text-sm text-gray-700 mt-2">Quantity: ${
-      order.bookingDetail.quantity
+      bookingDetail.quantity
     }</p>
     <p class="text-sm text-gray-700 mt-2">Check-in Date: ${new Date(
-      order.bookingDetail.checkInDate
+      bookingDetail.checkInDate
     ).toLocaleString()}</p>
     <p class="text-sm text-gray-700 mt-2">Check-out Date: ${new Date(
-      order.bookingDetail.checkOutDate
+      bookingDetail.checkOutDate
     ).toLocaleString()}</p>
 </div>
 
