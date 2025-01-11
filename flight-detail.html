@@ -13,27 +13,16 @@
     <div id="header-container"></div>
 
     <style>
-        /* Đặt kiểu cho cả hai nút */
         .carousel-btn {
             background-color: rgba(140, 143, 147, 0.355);
-            /* Màu nền nhạt cho nút */
             transition: background-color 0.3s ease;
-            /* Hiệu ứng chuyển màu mượt mà */
         }
 
-        /* Khi hover vào nút, thay đổi màu nền */
         .carousel-btn:hover {
             background-color: rgba(55, 65, 81, 1);
-            /* Màu nền đậm hơn */
-        }
-
-        /* Cũng có thể chỉnh thêm nếu muốn nút nổi bật hơn khi hover */
-        .carousel-btn:hover {
             transform: scale(1.1);
-            /* Làm nút phóng to một chút khi hover */
         }
 
-        /* CSS cho dropdown menu */
         #dropdownHover {
             position: absolute;
             top: 100%;
@@ -41,7 +30,6 @@
             z-index: 1000;
         }
     </style>
-
 
     <main>
         <div id="flight-info" class="container mx-auto p-5">
@@ -55,32 +43,32 @@
                 <p id="total-price" class="text-lg font-bold text-blue-600 mt-4"></p>
             </div>
 
-            <!-- Form điền thông tin hành khách -->
+            <!-- Passenger Information Form -->
             <div id="passenger-form" class="bg-white p-5 rounded-lg shadow-md mt-6">
                 <h2 class="text-xl font-semibold mb-4">Thông tin hành khách</h2>
 
-                <!-- Danh sách thông tin hành khách -->
+                <!-- Passenger List -->
                 <div id="passenger-list"></div>
 
                 <div class="mb-4">
-                    <button href="orders.html" class="w-full bg-indigo-600 text-white py-2 px-4 rounded mt-2 hover:bg-indigo-700 inline-block flex items-center justify-center">
+                    
+                    <!-- Book Flight Button -->
+                    <button id="booking-button" 
+                        class="w-full bg-indigo-600 text-white py-2 px-4 rounded mt-2 hover:bg-indigo-700 flex items-center justify-center">
                         Đặt vé
                     </button>
-                    
                 </div>
             </div>
         </div>
     </main>
 
-            <div id="footer"></div>
+    <div id="footer"></div>
 
-            <script src="https://cdn.jsdelivr.net/npm/flowbite@1.7.0/dist/flowbite.min.js"></script>
-            <script type="module" src="assets/js/components/header.js"></script>
-            <script type="module" src="assets/js/components/auth.js"></script>
-            <script type="module" src="assets/js/components/footer.js"></script>
-            <script type="module" src="assets/js/components/flight-detail.js"></script>
-
-
+    <script src="https://cdn.jsdelivr.net/npm/flowbite@1.7.0/dist/flowbite.min.js"></script>
+    <script type="module" src="assets/js/components/header.js"></script>
+    <script type="module" src="assets/js/components/auth.js"></script>
+    <script type="module" src="assets/js/components/footer.js"></script>
+    <script type="module" src="assets/js/components/flight-detail.js"></script>
 </body>
 
 </html>

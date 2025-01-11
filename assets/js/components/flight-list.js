@@ -44,7 +44,6 @@ async function getAllFlights() {
 
 // Hàm hiển thị danh sách chuyến bay
 function renderFlightList(flightsList) {
-    const passengerCount = document.getElementById('passengerCount').value;
     const flightList = document.getElementById('flight-list');
     flightList.innerHTML = ''; // Xóa danh sách hiện tại
 
@@ -59,49 +58,51 @@ function renderFlightList(flightsList) {
     }
 
     paginatedFlights.forEach(flight => {
-        flightList.innerHTML += `
-            <button class="flex bg-white p-4  rounded-lg shadow-md w-full flex items-center space-x-4">
-                <button class="flex" style="width:20%">
-                    <!-- Ảnh Hãng -->
-                    <img src="${flight.image}" alt="${flight.brand}" class="w-10 h-10 me-4 rounded-full mr-4 mt-2">
-
-                    <!-- Thông tin hãng -->
-                    <h3 class="w-1/3 text-lg font-semibold">${flight.brand}</h3>
-                </button>
-
-                <!-- Thông tin chuyến bay -->
-                <button class="flex items-center" style="width:50%">
-                    <button lass="flex-1" style="width:40%">
-                    <p class="text-sm text-gray-500">${flight.startLocation} </p>
+        // Tạo từng chuyến bay
+        const flightItem = document.createElement('div');
+        flightItem.className = 'flex bg-white p-4 rounded-lg shadow-md w-full flex items-center space-x-4';
+        flightItem.innerHTML = `
+            <div class="flex" style="width:20%">
+                <img src="${flight.image}" alt="${flight.brand}" class="w-10 h-10 me-4 rounded-full mr-4 mt-2">
+                <h3 class="w-1/3 text-lg font-semibold">${flight.brand}</h3>
+            </div>
+            <div class="flex items-center" style="width:50%">
+                <div class="flex-1" style="width:40%">
+                    <p class="text-sm text-gray-500">${flight.startLocation}</p>
                     <p class="text-sm text-gray-500">${formatDateToYMDHIS(flight.startTime)}</p>
-                    </button>
-
-                    <svg class="w-6 h-6 text-gray-800 dark:text-white mr-4 ml-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-                    width="24" height="24" fill="none" viewBox="0 0 24 24">
-                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M19 12H5m14 0-4 4m0-4-4-4" />
-                    </svg>
-
-
-                    <button class="flex-1 p-6" style="width:30%">
-                    <p class="text-sm text-gray-500">${flight.endLocation} </p>
+                </div>
+                <svg class="w-6 h-6 text-gray-800 dark:text-white mr-4 ml-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 12H5m14 0-4 4m0-4-4-4" />
+                </svg>
+                <div class="flex-1" style="width:30%">
+                    <p class="text-sm text-gray-500">${flight.endLocation}</p>
                     <p class="text-sm text-gray-500">${formatDateToYMDHIS(flight.endTime)}</p>
-                    </button>
+                </div>
+            </div>
+            <div class="flex items-center" style="width:20%">
+                <p class="text-sm text-gray-700 mt-2" style="width:90%; font-size: 16px;">${flight.price.toLocaleString()} VNĐ</p>
+                <button class="select-flight-button bg-indigo-600 text-white py-1 px-3 rounded-lg mt-2 hover:bg-indigo-700">
+                    Chọn
                 </button>
-
-                <!-- Giá và Nút chọn -->
-                <button class="flex items-center" style="width:20%">
-                    <p class="text-sm text-gray-700 mt-2" style="width:90%; font-size: 16px;"> ${flight.price.toLocaleString()} VNĐ</p>
-
-                    <a href="flight-detail.html?id=${flight.id}&passengerCount=${passengerCount}"
-                    class="bg-indigo-600 text-white py-1 px-3 rounded-lg mt-2 hover:bg-indigo-700 inline-block">Chọn</a>
-                </button>
-            </button>
+            </div>
         `;
+
+        // Gắn sự kiện cho nút "Chọn"
+        const selectButton = flightItem.querySelector('.select-flight-button');
+        selectButton.addEventListener('click', function () {
+            // Lấy giá trị `passengerCount` trực tiếp khi nhấn nút "Chọn"
+            const passengerCount = document.getElementById('passengerCount').value;
+            const url = `flight-detail.html?id=${flight.id}&passengerCount=${passengerCount}`;
+            window.location.href = url;
+        });
+
+        // Thêm phần tử chuyến bay vào danh sách
+        flightList.appendChild(flightItem);
     });
 
     renderPagination(flightsList.length);
 }
+
 
 // Hàm phân trang
 function renderPagination(totalItems) {
@@ -207,24 +208,30 @@ function formatDateToYMDHIS(datetimeLocalValue) {
     return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
 }
 
-// Hàm để tăng số lượng hành khách
-document.getElementById('increment-button').addEventListener('click', function () {
-    let passengerCount = document.getElementById('passengerCount');
-    let value = parseInt(passengerCount.value);
-    passengerCount.value = isNaN(value) ? 1 : value + 1;
-});
-
-// Hàm để giảm số lượng hành khách
-document.getElementById('decrement-button').addEventListener('click', function () {
-    let passengerCount = document.getElementById('passengerCount');
-    let value = parseInt(passengerCount.value);
-    if (value > 1) {
-        passengerCount.value = value - 1;
-    }
-});
 
 // Hàm xử lý khi thay đổi lựa chọn sắp xếp
 document.getElementById('sort').addEventListener('change', applyFilter);
+
+
+document.addEventListener('DOMContentLoaded', function () {
+    // Lắng nghe sự kiện thay đổi số lượng hành khách
+    document.getElementById('increment-button').addEventListener('click', function () {
+        let passengerCountInput = document.getElementById('passengerCount');
+        let value = parseInt(passengerCountInput.value);
+        passengerCountInput.value = isNaN(value) ? 1 : value + 1;
+    });
+
+    document.getElementById('decrement-button').addEventListener('click', function () {
+        let passengerCountInput = document.getElementById('passengerCount');
+        let value = parseInt(passengerCountInput.value);
+        if (value > 1) {
+            passengerCountInput.value = value - 1;
+        }
+    });
+
+    
+});
+
 
 // Gọi hàm để lấy dữ liệu khi trang được tải
 document.addEventListener('DOMContentLoaded', () => {

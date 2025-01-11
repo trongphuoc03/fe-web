@@ -1,41 +1,54 @@
-document.addEventListener("DOMContentLoaded", function () {    
-    // Get the flight ID and passenger count from the URL
+document.addEventListener("DOMContentLoaded", function () {
+    const API_BASE_URL = 'https://symfony-9z0y.onrender.com';
+    const token = localStorage.getItem('token');
+
     const params = new URLSearchParams(window.location.search);
     const flightId = params.get('id');
-    const passengerCount = params.get('passengerCount');
+    const passengerCount = params.get('passengerCount') || 1;
 
-    // Fetch flight data from a JSON file (or API)
-    fetch('assets/data/flight.json')
-        .then(response => response.json())
-        .then(flights => {
-            const flight = flights.find(flight => flight.id == flightId);
-            
-            if (flight) {
-                // Populate flight details in the HTML
-                document.getElementById('flight-brand').innerText = `Hãng hàng không: ${flight.brand}`;
-                document.getElementById('flight-route').innerText = `Từ: ${flight.startLocation} → Đến: ${flight.endLocation}`;
-                document.getElementById('flight-time').innerText = `Thời gian: ${new Date(flight.startTime).toLocaleString()} - ${new Date(flight.endTime).toLocaleString()}`;
-                document.getElementById('flight-price').innerText = `Giá vé: ${flight.price.toLocaleString()} VNĐ/khách`;
-                document.getElementById('passenger-count').innerText = `Số lượng: ${passengerCount} hành khách`;
+    const flightInfoContainer = document.getElementById('flight-info');
+    const passengerListContainer = document.getElementById('passenger-list');
 
-                // Generate passenger input fields based on the selected passenger count
-                generatePassengerForms(passengerCount);
-                
-                // Update total price based on the selected number of passengers
-                updateTotalPrice(flight.price);
-            } else {
-                document.getElementById('flight-info').innerHTML = `<p class="text-red-500">Không tìm thấy chuyến bay.</p>`;
+    // Fetch flight details from API
+    async function fetchFlightDetails() {
+        try {
+            const response = await fetch(`${API_BASE_URL}/flights/${flightId}`, {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json',
+                },
+            });
+
+            if (!response.ok) {
+                throw new Error(`Error: ${response.status}`);
             }
-        })
-        .catch(error => console.error('Lỗi khi tải dữ liệu:', error));
 
-    // Function to generate passenger input forms
-    function generatePassengerForms(passengerCount) {
-        const passengerList = document.getElementById('passenger-list');
-        passengerList.innerHTML = ''; // Clear previous passenger forms
-        
-        for (let i = 0; i < passengerCount; i++) {
-            passengerList.innerHTML += `
+            const flight = await response.json();
+            displayFlightDetails(flight);
+        } catch (error) {
+            console.error('Failed to fetch flight details:', error);
+            flightInfoContainer.innerHTML = '<p class="text-red-500">Không tìm thấy thông tin chuyến bay.</p>';
+        }
+    }
+
+    // Display flight details
+    function displayFlightDetails(flight) {
+        document.getElementById('flight-brand').textContent = `Hãng hàng không: ${flight.brand}`;
+        document.getElementById('flight-route').textContent = `Từ: ${flight.startLocation} → Đến: ${flight.endLocation}`;
+        document.getElementById('flight-time').textContent = `Thời gian: ${new Date(flight.startTime).toLocaleString()} - ${new Date(flight.endTime).toLocaleString()}`;
+        document.getElementById('flight-price').textContent = `Giá vé: ${flight.price.toLocaleString()} VNĐ/khách`;
+        document.getElementById('passenger-count').textContent = `Số lượng: ${passengerCount} hành khách`;
+        updateTotalPrice(flight.price);
+
+        generatePassengerForms(passengerCount);
+    }
+
+    // Generate passenger forms
+    function generatePassengerForms(count) {
+        passengerListContainer.innerHTML = '';
+        for (let i = 0; i < count; i++) {
+            passengerListContainer.innerHTML += `
                 <div class="mb-4">
                     <h3 class="text-lg font-semibold">Hành khách ${i + 1}</h3>
                     <div class="mb-2">
@@ -44,7 +57,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     </div>
                     <div class="mb-2">
                         <label for="passenger-id-${i}" class="block">Số CMND/CCCD:</label>
-                        <input type="number" id="passenger-id-${i}" class="w-full p-2 border rounded" required>
+                        <input type="text" id="passenger-id-${i}" class="w-full p-2 border rounded" required>
                     </div>
                     <div class="mb-2">
                         <label for="passenger-dob-${i}" class="block">Ngày sinh:</label>
@@ -64,81 +77,101 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
-    // Hàm tính tổng tiền
-    function updateTotalPrice(flightPrice) {
-        const numPassengers = parseInt(passengerCount, 10); // Sử dụng passengerCount đã lấy từ URL
-        const totalPrice = numPassengers * flightPrice; // Tính tổng tiền
-        document.getElementById("total-price").textContent = `Tổng: ${totalPrice.toLocaleString()} VNĐ`;
+    // Update total price
+    function updateTotalPrice(pricePerPassenger) {
+        const totalPrice = pricePerPassenger * passengerCount;
+        document.getElementById('total-price').textContent = `Tổng: ${totalPrice.toLocaleString()} VNĐ`;
     }
 
+    // Create booking
+    // async function createBooking() {
+    //     const passengers = [];
 
-    // Function to save order to JSON file
-    function saveOrder(order) {
-        fetch('assets/data/orders.json', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(order)
-        })
-        .then(response => response.json())
-        .then(data => console.log('Order saved:', data))
-        .catch(error => console.error('Error saving order:', error));
+    //     for (let i = 0; i < passengerCount; i++) {
+    //         passengers.push({
+    //             name: document.getElementById(`passenger-name-${i}`).value,
+    //             id: document.getElementById(`passenger-id-${i}`).value,
+    //             dob: document.getElementById(`passenger-dob-${i}`).value,
+    //             gender: document.getElementById(`passenger-gender-${i}`).value,
+    //         });
+    //     }
+
+    //     const bookingData = {
+    //         flightId: flightId,
+    //         passengerCount: parseInt(passengerCount, 10),
+    //         passengers: passengers,
+    //     };
+
+    //     try {
+    //         const response = await fetch(`${API_BASE_URL}/bookings`, {
+    //             method: 'POST',
+    //             headers: {
+    //                 'Authorization': `Bearer ${token}`,
+    //                 'Content-Type': 'application/json',
+    //             },
+    //             body: JSON.stringify(bookingData),
+    //         });
+
+    //         if (!response.ok) {
+    //             throw new Error(`Error: ${response.status}`);
+    //         }
+
+    //         const result = await response.json();
+    //         alert('Đặt vé thành công!');
+    //         console.log('Booking result:', result);
+    //     } catch (error) {
+    //         console.error('Error creating booking:', error);
+    //         alert('Đặt vé thất bại!');
+    //     }
+    // }
+    async function createBooking() {
+        const passengers = [];
+    
+        for (let i = 0; i < passengerCount; i++) {
+            passengers.push({
+                name: document.getElementById(`passenger-name-${i}`).value,
+                id: document.getElementById(`passenger-id-${i}`).value,
+                dob: document.getElementById(`passenger-dob-${i}`).value,
+                gender: document.getElementById(`passenger-gender-${i}`).value,
+            });
+        }
+    
+        const formData = {
+            flightId: flightId,
+            // passengers: passengers,
+            quantity: 1,
+            promoId: null,
+            activityId: null,
+            comboId: null,
+            hotelId: null,
+        };
+    
+        try {
+            const response = await fetch(`${API_BASE_URL}/bookings`, {
+                method: "POST",
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(formData),
+            });
+    
+            if (!response.ok) {
+                const errorResult = await response.json();
+                throw new Error(errorResult.message || `HTTP error! Status: ${response.status}`);
+            }
+    
+            const result = await response.json();
+            alert("Booking successful!");
+            console.log("Booking result:", result);
+        } catch (error) {
+            console.error("Error creating booking:", error);
+            alert("An error occurred while booking the flight!");
+        }
     }
+    
 
-        // Event listener for "Add to Order" button
-        document.getElementById('add-to-order-button').addEventListener('click', function () {
-            const passengers = [];
-    
-            for (let i = 0; i < passengerCount; i++) {
-                passengers.push({
-                    name: document.getElementById(`passenger-name-${i}`).value,
-                    id: document.getElementById(`passenger-id-${i}`).value,
-                    dob: document.getElementById(`passenger-dob-${i}`).value,
-                    gender: document.getElementById(`passenger-gender-${i}`).value
-                });
-            }
-    
-            const order = {
-                flightId: flightId,
-                passengerCount: passengerCount,
-                passengers: passengers,
-                totalPrice: document.getElementById("total-price").innerText,
-                status: 'pending'
-            };
-    
-            saveOrder(order);
-        });
-    
-        // Event listener for "Book Tour" button
-        document.getElementById('booking-button').addEventListener('click', function () {
-            const passengers = [];
-    
-            for (let i = 0; i < passengerCount; i++) {
-                passengers.push({
-                    name: document.getElementById(`passenger-name-${i}`).value,
-                    id: document.getElementById(`passenger-id-${i}`).value,
-                    dob: document.getElementById(`passenger-dob-${i}`).value,
-                    gender: document.getElementById(`passenger-gender-${i}`).value
-                });
-            }
-    
-            const order = {
-                flightId: flightId,
-                passengerCount: passengerCount,
-                passengers: passengers,
-                totalPrice: document.getElementById("total-price").innerText,
-                status: 'pending'
-            };
-    
-            saveOrder(order);
-    
-            // Simulate payment success and update order status
-            setTimeout(() => {
-                order.status = 'done';
-                saveOrder(order);
-                alert('Đặt vé thành công!');
-            }, 2000); // Simulate 2 seconds payment processing time
-        });
-    
+    document.getElementById('booking-button').addEventListener('click', createBooking);
+
+    fetchFlightDetails();
 });
