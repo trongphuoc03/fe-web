@@ -54,14 +54,15 @@ document.addEventListener("DOMContentLoaded", function () {
 
         comboItemsContainer.innerHTML = "";
         combosToShow.forEach((combo) => {
+          console.log('combo:', combo);
           const comboCard = document.createElement("div");
           comboCard.className = "carousel-item w-full";
           comboCard.innerHTML = `
-            <a href="combo-detail.html?id=${combo.id}">
+            <a href="combo-detail.html?id=${combo.comboId}">
                 <img class="p-4 rounded-t-lg" src="${combo.image_url}" alt="${combo.name}" />
             </a>
             <div class="px-3 pb-4">
-                <a href="combo-detail.html?id=${combo.id}">
+                <a href="combo-detail.html?id=${combo.comboId}">
                     <h5 class="text-lg font-semibold tracking-tight text-gray-900 dark:text-white">${combo.name}</h5>
                 </a>
             </div>
@@ -106,6 +107,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         hotelItemsContainer.innerHTML = "";
         hotelsToShow.forEach((hotel) => {
+          console.log('hotel:', hotel);
           const hotelCard = document.createElement("div");
           hotelCard.className = "carousel-item w-full";
           hotelCard.innerHTML = `
@@ -159,6 +161,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const passengerCount = 1;
         flightItemsContainer.innerHTML = "";
         flightsToShow.forEach((flight) => {
+          console.log('flight:', flight);
           const flightCard = document.createElement("div");
           flightCard.className = "carousel-item w-full";
           flightCard.innerHTML = `
@@ -210,13 +213,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
         activitiesItemsContainer.innerHTML = "";
         activitiesToShow.forEach((activities) => {
+          console.log('activities:', activities);
           const activityCard = document.createElement("div");
           activityCard.className = "carousel-item w-full";
           activityCard.innerHTML = `
-            <a href="activity-detail.html?id=${activities.id}">
+            <a href="activity-detail.html?id=${activities.activityId}">
             </a>
             <div class="px-3 pb-4">
-                <a href="activity-detail.html?id=${activities.id}">
+                <a href="activity-detail.html?id=${activities.activityId}">
                     <h5 class="text-lg font-semibold tracking-tight text-gray-900 dark:text-white">${activities.name}</h5>
                 </a>
             </div>
