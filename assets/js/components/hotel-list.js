@@ -74,7 +74,7 @@ function renderHotelList(hotelsList) {
 
     paginatedHotels.forEach(hotel => {
         hotelList.innerHTML += `
-            <div class="bg-white p-4 rounded-lg shadow-md">
+            <button class="bg-white p-4 rounded-lg shadow-md w-full">
                 <img src="${hotel.imgUrl}" alt="${hotel.name}" class="rounded-lg mb-4">
                 <h3 class="text-lg font-semibold">
                     <a href="hotel-detail.html?id=${hotel.id}" class="text-indigo-600 hover:underline">
@@ -90,7 +90,7 @@ function renderHotelList(hotelsList) {
                 </div>
 
                 <p class="text-sm mt-2 text-gray-700">${hotel.price.toLocaleString()} VNĐ</p>
-            </div>
+            </button>
         `;
     });
 

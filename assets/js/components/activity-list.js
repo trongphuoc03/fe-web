@@ -75,7 +75,7 @@ function renderActivityList(activitiesList) {
 
     paginatedActivities.forEach(activity => {
         activityList.innerHTML += `
-            <div class="bg-white p-4 rounded-lg shadow-md w-full">
+            <button class="bg-white p-4 rounded-lg shadow-md w-full">
                 <div class="flex">
                     <!-- Ảnh hoạt động -->
                     <img src="${activity.imgUrl}" alt="${activity.name}" class="w-32 h-32 object-cover rounded-lg mr-4">
@@ -97,7 +97,7 @@ function renderActivityList(activitiesList) {
                         <p class="text-sm text-gray-700 mt-2"> ${activity.price.toLocaleString()} VNĐ</p>
                     </div>
                 </div>
-            </div>
+            </button>
         `;
     });
 

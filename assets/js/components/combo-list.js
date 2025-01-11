@@ -74,7 +74,7 @@ function renderComboList(combosList) {
 
     paginatedCombos.forEach(combo => {
         comboList.innerHTML += `
-            <div class="bg-white p-4 rounded-lg shadow-md w-full">
+            <button class="bg-white p-4 rounded-lg shadow-md w-full">
                 <div class="flex">
                     <!-- Ảnh Gói Combo -->
                     <img src="${combo.imgUrl}" alt="${combo.name}" class="w-32 h-32 object-cover rounded-lg mr-4">
@@ -95,7 +95,7 @@ function renderComboList(combosList) {
                         <p class="text-sm text-gray-700 mt-2"> ${combo.price.toLocaleString()} VNĐ</p>
                     </div>
                 </div>
-            </div>
+            </button>
         `;
     });
 

@@ -44,7 +44,7 @@
 
 
     <main>
-        <div style="margin-left: 15%; margin-right: 15%;">
+        <div style="margin-left: 15%; margin-right: 15%; margin-top: 80px;">
             <div class="flex items-center mb-4 ">
                 <div class="image-gallery" style="width: 40%;">
                     <!-- Carousel hiển thị ảnh lớn -->
@@ -77,7 +77,8 @@
                     <!-- Form đặt phòng -->
                     <form id="booking-form" class="mb-4">
                         <div class="flex items-center space-x-4 mb-3">
-                            <label for="booking-date" class="block text-sm font-medium text-gray-700">Ngày:</label>
+                            <label for="booking-date" class="block text-sm font-medium text-gray-700">Ngày đến:</label>
+                            <label for="checkout-date" class="block text-sm font-medium text-gray-700">Ngày về:</label>
                             <input type="date" id="booking-date" class="border rounded p-2 block w-full">
                         </div>
 
@@ -117,10 +118,10 @@
                         <div class="flex flex-col items-center justify-center">
                             <div id="total-price" class="mt-4 text-lg font-semibold text-blue-600"></div>
 
-                            <a href="payment.html"
-                                class="bg-indigo-600 text-white py-1 px-3 rounded mt-2 hover:bg-indigo-700 inline-block">
-                                Đặt tour
-                            </a>
+                            <button href="orders.html"
+                                class="bg-indigo-600 text-white py-1 px-3 rounded-lg mt-2 hover:bg-indigo-700 inline-block">Đặt
+                                tour</button>
+
                         </div>
                     </form>
                 </div>
