@@ -13,8 +13,6 @@
     <div id="header-container"></div>
 
     <style>
-        /* Đặt kiểu cho cả hai nút */
-
         .modal {
             display: none;
             position: fixed;
@@ -81,159 +79,110 @@
             z-index: 1000;
             
         }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            min-height: 100vh; /* Đảm bảo container có chiều cao đầy đủ */
+            flex-direction: row; /* Căn chỉnh các phần tử bên trong theo hàng ngang */
+        }
+        
+
+        .sidebar {
+            width: 25%;
+            padding: 20px;
+            box-sizing: border-box;
+            padding-top: 80px;
+            height: auto;
+        }
+
+        .content {
+            width: 75%;
+            padding: 20px;
+            margin-top: 100px;
+            box-sizing: border-box;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .button-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .item-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
     </style>
 
-    <main class="container mx-auto p-4">
-        <h1 class="text-3xl font-bold mb-4 text-center">Admin Dashboard</h1>
-
-        <!-- Section for managing database components -->
-        <section id="database-management" class="mb-8">
-            <h2 class="text-2xl font-semibold mb-4">Database Management</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                <div class="bg-white p-4 rounded-lg shadow-md">
-                    <h3 class="text-xl font-semibold mb-2">Combos</h3>
-                    <button class="bg-blue-500 text-white px-4 py-2 rounded mb-2" onclick="showAddItemForm('Combo')">Add Combo</button>
-                    <button class="bg-yellow-500 text-white px-4 py-2 rounded mb-2" onclick="showEditItemForm('Combo')">Edit Combo</button>
-                    <button class="bg-red-500 text-white px-4 py-2 rounded" onclick="showDeleteItemForm('Combo')">Delete Combo</button>
+    <div class="container mx-auto p-4 flex">
+        <!-- Sidebar -->
+        <div class="sidebar w-1/4 border-r border-gray-300 pr-4">
+            <h1 class="text-3xl font-bold mb-4 text-center">Admin Dashboard</h1>
+    
+            <!-- Section for managing services -->
+            <div id="service-management">
+                <!-- Service Buttons -->
+                <div class="mb-6">
+                    <h2 class="text-2xl font-semibold mb-2">Activities</h2>
+                    <button class="bg-blue-500 text-white px-4 py-2 rounded w-full mb-2" onclick="handleAction('add', 'Activity')">Add</button>
+                    <button class="bg-yellow-500 text-white px-4 py-2 rounded w-full mb-2" onclick="handleAction('edit', 'Activity')">Edit</button>
+                    <button class="bg-red-500 text-white px-4 py-2 rounded w-full mb-2" onclick="handleAction('delete', 'Activity')">Delete</button>
                 </div>
-                <div>
-                    <h3 class="text-xl font-semibold mb-2">Activities</h3>
-                    <button class="bg-blue-500 text-white px-4 py-2 rounded mb-2" onclick="showAddItemForm('Activity')">Add Activity</button>
-                    <button class="bg-yellow-500 text-white px-4 py-2 rounded mb-2" onclick="showEditItemForm('Activity')">Edit Activity</button>
-                    <button class="bg-red-500 text-white px-4 py-2 rounded" onclick="showDeleteItemForm('Activity')">Delete Activity</button>
+                <div class="mb-6">
+                    <h2 class="text-2xl font-semibold mb-2">Booking</h2>
+                    <button class="bg-yellow-500 text-white px-4 py-2 rounded w-full mb-2" onclick="handleAction('edit', 'Booking')">Edit</button>
+                    <button class="bg-red-500 text-white px-4 py-2 rounded w-full mb-2" onclick="handleAction('delete', 'Booking')">Delete</button>
                 </div>
-                
-                <!-- Add Activity Modal -->
-                <div id="addActivityModal" class="modal hidden">
-                    <div class="modal-content">
-                        <span class="close" onclick="closeModal('addActivityModal')">&times;</span>
-                        <h3>Add Activity</h3>
-                        <form id="addActivityForm">
-                            <input type="text" id="name" placeholder="Name" required />
-                            <input type="number" id="emptySlot" placeholder="Empty Slots" required />
-                            <input type="text" id="location" placeholder="Location" required />
-                            <textarea id="description" placeholder="Description" required></textarea>
-                            <input type="number" id="price" placeholder="Price" required />
-                            <input type="file" id="file" />
-                            <button type="button" onclick="createActivity()">Add Activity</button>
-                        </form>
-                    </div>
+                <div class="mb-6">
+                    <h2 class="text-2xl font-semibold mb-2">Hotels</h2>
+                    <button class="bg-blue-500 text-white px-4 py-2 rounded w-full mb-2" onclick="handleAction('add', 'Hotel')">Add</button>
+                    <button class="bg-yellow-500 text-white px-4 py-2 rounded w-full mb-2" onclick="handleAction('edit', 'Hotel')">Edit</button>
+                    <button class="bg-red-500 text-white px-4 py-2 rounded w-full mb-2" onclick="handleAction('delete', 'Hotel')">Delete</button>
                 </div>
-                
-                <!-- Edit Activity Modal -->
-                <div id="editActivityModal" class="modal hidden">
-                    <div class="modal-content">
-                        <span class="close" onclick="closeModal('editActivityModal')">&times;</span>
-                        <h3>Edit Activity</h3>
-                        <div id="activityList"></div>
-                        <div id="editForm"></div>
-                    </div>
+                <div class="mb-6">
+                    <h2 class="text-2xl font-semibold mb-2">Flights</h2>
+                    <button class="bg-blue-500 text-white px-4 py-2 rounded w-full mb-2" onclick="handleAction('add', 'Flight')">Add</button>
+                    <button class="bg-yellow-500 text-white px-4 py-2 rounded w-full mb-2" onclick="handleAction('edit', 'Flight')">Edit</button>
+                    <button class="bg-red-500 text-white px-4 py-2 rounded w-full mb-2" onclick="handleAction('delete', 'Flight')">Delete</button>
                 </div>
-                
-                <!-- Delete Activity Modal -->
-                <div id="deleteActivityModal" class="modal hidden">
-                    <div class="modal-content">
-                        <span class="close" onclick="closeModal('deleteActivityModal')">&times;</span>
-                        <h3>Delete Activity</h3>
-                        <div id="deleteList"></div>
-                        <button id="deleteYesButton" onclick="deleteActivity()">Yes</button>
-                        <button onclick="closeModal('deleteActivityModal')">Cancel</button>
-                    </div>
+                <div class="mb-6">
+                    <h2 class="text-2xl font-semibold mb-2">Promos</h2>
+                    <button class="bg-blue-500 text-white px-4 py-2 rounded w-full mb-2" onclick="handleAction('add', 'Promo')">Add</button>
+                    <button class="bg-yellow-500 text-white px-4 py-2 rounded w-full mb-2" onclick="handleAction('edit', 'Promo')">Edit</button>
+                    <button class="bg-red-500 text-white px-4 py-2 rounded w-full mb-2" onclick="handleAction('delete', 'Promo')">Delete</button>
                 </div>
-                
-                <div class="bg-white p-4 rounded-lg shadow-md">
-                    <h3 class="text-xl font-semibold mb-2">Flights</h3>
-                    <button class="bg-blue-500 text-white px-4 py-2 rounded mb-2" onclick="showAddItemForm('Flight')">Add Flight</button>
-                    <button class="bg-yellow-500 text-white px-4 py-2 rounded mb-2" onclick="showEditItemForm('Flight')">Edit Flight</button>
-                    <button class="bg-red-500 text-white px-4 py-2 rounded" onclick="showDeleteItemForm('Flight')">Delete Flight</button>
+                <div class="mb-6">
+                    <h2 class="text-2xl font-semibold mb-2">Combos</h2>
+                    <button class="bg-blue-500 text-white px-4 py-2 rounded w-full mb-2" onclick="handleAction('add', 'Combo')">Add</button>
+                    <button class="bg-yellow-500 text-white px-4 py-2 rounded w-full mb-2" onclick="handleAction('edit', 'Combo')">Edit</button>
+                    <button class="bg-red-500 text-white px-4 py-2 rounded w-full mb-2" onclick="handleAction('delete', 'Combo')">Delete</button>
                 </div>
-                <div class="bg-white p-4 rounded-lg shadow-md">
-                    <h3 class="text-xl font-semibold mb-2">Hotels</h3>
-                    <button class="bg-blue-500 text-white px-4 py-2 rounded mb-2" onclick="showAddItemForm('Hotel')">Add Hotel</button>
-                    <button class="bg-yellow-500 text-white px-4 py-2 rounded mb-2" onclick="showEditItemForm('Hotel')">Edit Hotel</button>
-                    <button class="bg-red-500 text-white px-4 py-2 rounded" onclick="showDeleteItemForm('Hotel')">Delete Hotel</button>
-                </div>
-                <div class="bg-white p-4 rounded-lg shadow-md">
-                    <h3 class="text-xl font-semibold mb-2">Promos</h3>
-                    <button class="bg-blue-500 text-white px-4 py-2 rounded mb-2" onclick="showAddItemForm('Promo')">Add Promo</button>
-                    <button class="bg-yellow-500 text-white px-4 py-2 rounded mb-2" onclick="showEditItemForm('Promo')">Edit Promo</button>
-                    <button class="bg-red-500 text-white px-4 py-2 rounded" onclick="showDeleteItemForm('Promo')">Delete Promo</button>
+                <div class="mb-6">
+                    <h2 class="text-2xl font-semibold mb-2">Feedback</h2>
+                    <button class="bg-yellow-500 text-white px-4 py-2 rounded w-full mb-2" onclick="handleAction('edit', 'Feedback')">Read</button>
+                    <button class="bg-red-500 text-white px-4 py-2 rounded w-full mb-2" onclick="handleAction('delete', 'Feedback')">Delete</button>
                 </div>
             </div>
-        </section>
-
-        <!-- Section for deleting bookings and users -->
-        <section id="delete-management" class="mb-8">
-            <h2 class="text-2xl font-semibold mb-4">Delete Management</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div class="bg-white p-4 rounded-lg shadow-md">
-                    <h3 class="text-xl font-semibold mb-2">Bookings</h3>
-                    <button class="bg-red-500 text-white px-4 py-2 rounded" onclick="showDeleteBookingForm()">Delete Booking</button>
-                </div>
-                <div class="bg-white p-4 rounded-lg shadow-md">
-                    <h3 class="text-xl font-semibold mb-2">Users</h3>
-                    <button class="bg-red-500 text-white px-4 py-2 rounded" onclick="showDeleteUserForm()">Delete User</button>
-                </div>
-            </div>
-        </section>
-
-        <!-- Section for booking statistics -->
-        <section id="booking-statistics" class="mb-8">
-            <h2 class="text-2xl font-semibold mb-4">Booking Statistics</h2>
-            <div class="bg-white p-4 rounded-lg shadow-md">
-                <label for="start-date" class="block text-sm font-medium text-gray-700 mb-2">Start Date:</label>
-                <input type="date" id="start-date" class="border rounded p-2 block w-full mb-4">
-                <label for="end-date" class="block text-sm font-medium text-gray-700 mb-2">End Date:</label>
-                <input type="date" id="end-date" class="border rounded p-2 block w-full mb-4">
-                <button class="bg-blue-500 text-white px-4 py-2 rounded" onclick="calculateStatistics()">Calculate Statistics</button>
-                <div id="statistics-result" class="mt-4"></div>
-            </div>
-        </section>
-
-        <!-- Section for displaying API response -->
-        <section id="api-response" class="mb-8">
-            <h2 class="text-2xl font-semibold mb-4">API Response</h2>
-            <div id="response" class="bg-gray-100 p-4 rounded-lg shadow-md"></div>
-        </section>
-    </main>
-
-    <!-- Popup form for adding items -->
-    <div id="item-add-form" class="hidden fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-        <div class="bg-white p-6 rounded-lg shadow-lg w-1/3">
-            <h3 class="text-xl font-semibold mb-4">Add <span id="item-type-add"></span></h3>
-            <form id="add-form">
-                <!-- Form fields will be dynamically generated -->
-                <div id="add-form-fields"></div>
-                <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded mt-4 w-full">Add</button>
-                <button type="button" class="bg-red-500 text-white px-4 py-2 rounded mt-4 w-full" onclick="closeAddForm()">Cancel</button>
-            </form>
+        </div>
+    
+        <!-- Content Display -->
+        <div class="content w-3/4 pl-4">
+            <!-- Placeholder for forms and data -->
+            <div id="dynamic-content" class="bg-gray-50 p-4 rounded-lg shadow-md"></div>
         </div>
     </div>
+    
 
-    <!-- Popup form for editing items -->
-    <div id="item-edit-form" class="hidden fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-        <div class="bg-white p-6 rounded-lg shadow-lg w-1/3">
-            <h3 class="text-xl font-semibold mb-4">Edit <span id="item-type-edit"></span></h3>
-            <form id="edit-form">
-                <!-- Form fields will be dynamically generated -->
-                <div id="edit-form-fields"></div>
-                <button type="submit" class="bg-yellow-500 text-white px-4 py-2 rounded mt-4 w-full">Edit</button>
-                <button type="button" class="bg-red-500 text-white px-4 py-2 rounded mt-4 w-full" onclick="closeEditForm()">Cancel</button>
-            </form>
-        </div>
-    </div>
 
-    <!-- Popup form for deleting items -->
-    <div id="item-delete-popup" class="hidden fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-        <div class="bg-white p-6 rounded-lg shadow-lg w-1/3">
-            <h3 class="text-xl font-semibold mb-4">Delete <span id="item-type-name-delete"></span></h3>
-            <ul id="item-list-container-delete" class="mb-4">
-                <!-- List of items to delete will be dynamically generated -->
-            </ul>
-            <button id="confirm-delete" class="bg-red-500 text-white px-4 py-2 rounded mt-4 w-full">Confirm Delete</button>
-            <button id="cancel-delete" class="bg-gray-500 text-white px-4 py-2 rounded mt-4 w-full" onclick="closeDeletePopup()">Cancel</button>
-        </div>
-    </div>
 
     <div id="footer"></div>
 
@@ -241,7 +190,7 @@
     <script type="module" src="assets/js/components/header.js"></script>
     <script type="module" src="assets/js/components/auth.js"></script>
     <script type="module" src="assets/js/components/footer.js"></script>
-    <script src="assets/js/components/admin-dashboard.js"></script>
+    <script type="module" src="assets/js/components/admin-dashboard.js"></script>
 
 </body>
 

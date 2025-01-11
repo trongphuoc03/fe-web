@@ -1,7 +1,7 @@
 let hotels = [];
 let filteredHotels = []; // Biến lưu trữ kết quả lọc
 let currentPage = 1; // Trang hiện tại
-const itemsPerPage = 5; // Số mục trên mỗi trang
+const itemsPerPage = 6; // Số mục trên mỗi trang
 
 async function callAPI(endpoint, method, body = null, isFile = false) {
     const token = localStorage.getItem('token');
