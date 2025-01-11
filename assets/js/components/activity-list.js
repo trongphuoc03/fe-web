@@ -76,27 +76,27 @@ function renderActivityList(activitiesList) {
     paginatedActivities.forEach(activity => {
         activityList.innerHTML += `
             <button class="bg-white p-4 rounded-lg shadow-md w-full">
-                <div class="flex">
+                <button class="flex">
                     <!-- Ảnh hoạt động -->
                     <img src="${activity.imgUrl}" alt="${activity.name}" class="w-32 h-32 object-cover rounded-lg mr-4">
 
                     <!-- Thông tin hoạt động -->
-                    <div class="flex-1">
+                    <button class="flex-1">
                         <h3 class="text-xl font-semibold">
                             <a href="activity-detail.html?id=${activity.activityId}" class="text-indigo-600 hover:underline">${activity.name}</a>
                         </h3>
                         
                         <!-- Hiển thị đánh giá trung bình -->
-                        <div class="rating flex items-center">
+                        <button class="rating flex items-center">
                             <span class="text-yellow-500 text-lg font-semibold mr-2">${activity.averageRating}</span>
                             <svg class="w-5 h-5 text-yellow-500" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
                                 <path d="M10 15l-5.5 3.3 1.1-6.3L.4 7.7l6.4-.9L10 1.4l2.2 5.4 6.4.9-4.6 4.3 1.1 6.3z"/>
                             </svg>
-                        </div>
+                        </button>
                         
                         <p class="text-sm text-gray-700 mt-2"> ${activity.price.toLocaleString()} VNĐ</p>
-                    </div>
-                </div>
+                    </button>
+                </button>
             </button>
         `;
     });

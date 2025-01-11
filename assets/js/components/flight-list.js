@@ -60,21 +60,21 @@ function renderFlightList(flightsList) {
 
     paginatedFlights.forEach(flight => {
         flightList.innerHTML += `
-            <div class="flex bg-white p-4  rounded-lg shadow-md w-full flex items-center space-x-4">
-                <div class="flex" style="width:20%">
+            <button class="flex bg-white p-4  rounded-lg shadow-md w-full flex items-center space-x-4">
+                <button class="flex" style="width:20%">
                     <!-- Ảnh Hãng -->
                     <img src="${flight.image}" alt="${flight.brand}" class="w-10 h-10 me-4 rounded-full mr-4 mt-2">
 
                     <!-- Thông tin hãng -->
                     <h3 class="w-1/3 text-lg font-semibold">${flight.brand}</h3>
-                </div>
+                </button>
 
                 <!-- Thông tin chuyến bay -->
-                <div class="flex items-center" style="width:50%">
-                    <div lass="flex-1" style="width:40%">
+                <button class="flex items-center" style="width:50%">
+                    <button lass="flex-1" style="width:40%">
                     <p class="text-sm text-gray-500">${flight.startLocation} </p>
                     <p class="text-sm text-gray-500">${formatDateToYMDHIS(flight.startTime)}</p>
-                    </div>
+                    </button>
 
                     <svg class="w-6 h-6 text-gray-800 dark:text-white mr-4 ml-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                     width="24" height="24" fill="none" viewBox="0 0 24 24">
@@ -83,20 +83,20 @@ function renderFlightList(flightsList) {
                     </svg>
 
 
-                    <div class="flex-1 p-6" style="width:30%">
+                    <button class="flex-1 p-6" style="width:30%">
                     <p class="text-sm text-gray-500">${flight.endLocation} </p>
                     <p class="text-sm text-gray-500">${formatDateToYMDHIS(flight.endTime)}</p>
-                    </div>
-                </div>
+                    </button>
+                </button>
 
                 <!-- Giá và Nút chọn -->
-                <div class="flex items-center" style="width:20%">
+                <button class="flex items-center" style="width:20%">
                     <p class="text-sm text-gray-700 mt-2" style="width:90%; font-size: 16px;"> ${flight.price.toLocaleString()} VNĐ</p>
 
                     <a href="flight-detail.html?id=${flight.id}&passengerCount=${passengerCount}"
                     class="bg-indigo-600 text-white py-1 px-3 rounded-lg mt-2 hover:bg-indigo-700 inline-block">Chọn</a>
-                </div>
-            </div>
+                </button>
+            </button>
         `;
     });
 
