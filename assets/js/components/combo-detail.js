@@ -104,7 +104,7 @@ document.addEventListener("DOMContentLoaded", function () {
             promoId: null, // Đặt giá trị null
             quantity: parseInt(document.getElementById('num-people').value, 10), // Lấy số lượng người từ input
             checkInDate: document.getElementById('booking-date').value || null, // Lấy ngày check-in từ input
-            checkOutDate: null // Đặt giá trị null
+            checkOutDate:  document.getElementById('checkout-date').value || null // Đặt giá trị null
         };
         console.log('Booking data:', formData);
     

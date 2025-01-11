@@ -80,15 +80,15 @@ function renderHotelList(hotelsList) {
 
   paginatedHotels.forEach((hotel) => {
     hotelList.innerHTML += `
-        <button class="bg-white p-4 rounded-lg shadow-md w-full">
-                <button class="flex">
+        <div class="bg-white p-4 rounded-lg shadow-md w-full">
+                <div class="flex">
                     <!-- Ảnh Gói Combo -->
                     <img src="${hotel.imgUrl}" alt="${
       hotel.name
     }" class="w-32 h-32 object-cover rounded-lg mr-4">
                     
                     <!-- Thông tin gói hotel -->
-                    <button class="flex-1">
+                    <div class="flex-1">
                         <h3 class="text-xl font-semibold">
                              <a href="hotel-detail.html?id=${
                                hotel.id
@@ -98,18 +98,18 @@ function renderHotelList(hotelsList) {
                         </h3>
                         
                         <!-- Hiển thị đánh giá trung bình -->
-                        <button class="rating  flex items-center">
+                        <div class="rating  flex items-center">
                             <span class="text-yellow-500 text-lg font-semibold mr-2">${
                               hotel.averageRating
                             }</span>
                             <svg class="w-5 h-5 text-yellow-500" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
                                 <path d="M10 15l-5.5 3.3 1.1-6.3L.4 7.7l6.4-.9L10 1.4l2.2 5.4 6.4.9-4.6 4.3 1.1 6.3z"/>
                             </svg>
-                        </button>
+                        </div>
                         <p class="text-sm text-gray-700 mt-2"> ${hotel.price.toLocaleString()} VNĐ</p>
-                    </button>
-                </button>
-            </button>
+                    </div>
+                </div>
+            </div>
         `;
   });
 

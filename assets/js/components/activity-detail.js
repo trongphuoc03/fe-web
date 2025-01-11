@@ -187,12 +187,13 @@
 
 
 document.addEventListener("DOMContentLoaded", function () {
-    const hotelId = new URLSearchParams(window.location.search).get("id");
-    const token = localStorage.getItem("token");
+const activityId = new URLSearchParams(window.location.search).get('id');
+console.log(activityId);
+const token = localStorage.getItem("token");
     const API_BASE_URL = "https://symfony-9z0y.onrender.com";
 
     // Khai báo biến toàn cục
-    let pricePerNight = 0;
+    let activityPricePerPerson = 0;
 
     // Lấy phần tử DOM
     const carousel = document.getElementById("carousel");
@@ -201,9 +202,9 @@ document.addEventListener("DOMContentLoaded", function () {
     const feedbackList = document.getElementById("feedback-list");
 
     // Gọi API để lấy chi tiết khách sạn
-    async function getHotelDetailById(hotelId) {
+    async function getActivityDetailById(activityId) {
         try {
-            const response = await fetch(`${API_BASE_URL}/hotels/${hotelId}`, {
+            const response = await fetch(`${API_BASE_URL}/activities/${activityId}`, {
                 method: "GET",
                 headers: {
                     Authorization: `Bearer ${token}`,
@@ -215,33 +216,34 @@ document.addEventListener("DOMContentLoaded", function () {
                 throw new Error(`HTTP error! Status: ${response.status}`);
             }
 
-            const hotelDetail = await response.json();
-            displayHotelDetails(hotelDetail);
+            const ActivityDetail = await response.json();
+            console.log(ActivityDetail);
+            displayActivityDetails(ActivityDetail);
         } catch (error) {
-            console.error("Error fetching hotel details:", error);
+            console.error("Error fetching activity details:", error);
             displayError();
         }
     }
 
     // Hiển thị chi tiết khách sạn
-    function displayHotelDetails(hotelDetail) {
-        const { name, location, description, price, imgUrl, phone } = hotelDetail;
+    function displayActivityDetails(ActivityDetail) {
+        const { name, location, description, price, imgUrl } = ActivityDetail;
+        console.log(ActivityDetail);
 
-        document.getElementById("hotel-name").textContent = name || "Không có thông tin khách sạn";
-        document.getElementById("hotel-location").textContent = location || "Không có vị trí";
-        document.getElementById("hotel-description").textContent = description || "Không có mô tả";
-        document.getElementById("hotel-phone").textContent = phone || "Không có mô tả";
-        document.getElementById("hotel-price").textContent = price
+        document.getElementById("activity-name").textContent = name || "Không có thông tin khách sạn";
+        document.getElementById("activity-location").textContent = location || "Không có vị trí";
+        document.getElementById("activity-description").textContent = description || "Không có mô tả";
+        document.getElementById("activity-price").textContent = price
             ? price.toLocaleString() 
             : "Không có giá";
-        pricePerNight = price || 0;
 
+            activityPricePerPerson = price || 0;
         // Hiển thị hình ảnh
         if (imgUrl) {
             displayMainImage(imgUrl);
             const thumbnail = document.createElement("img");
             thumbnail.src = imgUrl;
-            thumbnail.alt = "Hotel Image";
+            thumbnail.alt = "Activity Image";
             thumbnail.className = "object-cover rounded cursor-pointer border border-gray-300";
             thumbnail.style = "width: 20%";
             thumbnailContainer.appendChild(thumbnail);
@@ -253,25 +255,19 @@ document.addEventListener("DOMContentLoaded", function () {
     // Hiển thị ảnh lớn trong carousel
     function displayMainImage(image) {
         carousel.innerHTML = `
-            <img src="${image}" alt="Hotel Image" class="w-full h-full object-contain">
+            <img src="${image}" alt="Activity Image" class="w-full h-full object-contain">
         `;
     }
 
-    // Tính số đêm
-    function calculateNumNights(checkinDate, checkoutDate) {
-        const diffTime = Math.abs(new Date(checkoutDate) - new Date(checkinDate));
-        return diffTime ? Math.ceil(diffTime / (1000 * 60 * 60 * 24)) : 0;
-    }
 
     // Cập nhật tổng tiền
     function updateTotalPrice() {
-        const checkinDate = document.getElementById("checkin-date").value;
-        const checkoutDate = document.getElementById("checkout-date").value;
         const numPeople = parseInt(document.getElementById("num-people").value, 10);
+        console.log(numPeople);
 
-        const numNights = calculateNumNights(checkinDate, checkoutDate);
-        document.getElementById("num-nights").innerText = numNights;
-        const totalPrice = numNights * pricePerNight * numPeople;
+
+        const totalPrice = numPeople * activityPricePerPerson;
+        console.log(totalPrice);
         document.getElementById("total-price").innerText = totalPrice
             ? totalPrice.toLocaleString() 
             : "0 VNĐ";
@@ -281,15 +277,15 @@ document.addEventListener("DOMContentLoaded", function () {
     async function createBooking() {
         const formData = {
             flightId: null,
-            activityId: null,
+            hotelId: null,
             comboId: null,
             promoId: null,
-            hotelId: hotelId,
-            checkInDate: document.getElementById("checkin-date").value || null,
-            checkOutDate: document.getElementById("checkout-date").value || null,
+            activityId: activityId,
+            checkInDate: document.getElementById("booking-date").value || null,
+            checkOutDate: document.getElementById("booking-date").value || null,
             quantity: parseInt(document.getElementById("num-people").value, 10),
         };
-        console.log("Booking hotel form data:", formData);
+        console.log("Booking activity form data:", formData);
 
         try {
             const response = await fetch(`${API_BASE_URL}/bookings`, {
@@ -321,5 +317,5 @@ document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("booking-form").addEventListener("input", updateTotalPrice);
 
     // Gọi dữ liệu khi tải trang
-    getHotelDetailById(hotelId);
+    getActivityDetailById(activityId);
 });

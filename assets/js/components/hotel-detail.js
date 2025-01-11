@@ -37,12 +37,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Hiển thị chi tiết khách sạn
     function displayHotelDetails(hotelDetail) {
-        const { name, location, description, price, imgUrl, phone } = hotelDetail;
+        const { name, location, description, price, imgUrl } = hotelDetail;
 
         document.getElementById("hotel-name").textContent = name || "Không có thông tin khách sạn";
         document.getElementById("hotel-location").textContent = location || "Không có vị trí";
         document.getElementById("hotel-description").textContent = description || "Không có mô tả";
-        document.getElementById("hotel-phone").textContent = phone || "Không có mô tả";
         document.getElementById("hotel-price").textContent = price
             ? price.toLocaleString() 
             : "Không có giá";
