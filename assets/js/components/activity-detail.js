@@ -200,6 +200,25 @@ const token = localStorage.getItem("token");
     const thumbnailContainer = document.getElementById("thumbnail-container");
     const bookTourButton = document.getElementById("book-tour-button");
     const feedbackList = document.getElementById("feedback-list");
+    const decrementButton = document.getElementById("decrement-button");
+    const incrementButton = document.getElementById("increment-button");
+    const numPeopleInput = document.getElementById("num-people");
+
+    // Lắng nghe sự kiện nút giảm
+    decrementButton.addEventListener("click", () => {
+        const currentValue = parseInt(numPeopleInput.value) || 1;
+        if (currentValue > 1) {
+            numPeopleInput.value = currentValue - 1;
+            updateTotalPrice();
+        }
+    });
+
+    // Lắng nghe sự kiện nút tăng
+    incrementButton.addEventListener("click", () => {
+        const currentValue = parseInt(numPeopleInput.value) || 1;
+        numPeopleInput.value = currentValue + 1;
+        updateTotalPrice();
+    });
 
     // Gọi API để lấy chi tiết khách sạn
     async function getActivityDetailById(activityId) {
@@ -262,11 +281,11 @@ const token = localStorage.getItem("token");
 
     // Cập nhật tổng tiền
     function updateTotalPrice() {
-        const numPeople = parseInt(document.getElementById("num-people").value, 10);
-        console.log(numPeople);
+        const numPeopleInput = parseInt(document.getElementById("num-people").value, 10);
+        console.log(numPeopleInput);
 
 
-        const totalPrice = numPeople * activityPricePerPerson;
+        const totalPrice = numPeopleInput * activityPricePerPerson;
         console.log(totalPrice);
         document.getElementById("total-price").innerText = totalPrice
             ? totalPrice.toLocaleString() 

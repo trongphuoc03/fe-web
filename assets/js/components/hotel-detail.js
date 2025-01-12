@@ -11,6 +11,25 @@ document.addEventListener("DOMContentLoaded", function () {
     const thumbnailContainer = document.getElementById("thumbnail-container");
     const bookTourButton = document.getElementById("book-tour-button");
     const feedbackList = document.getElementById("feedback-list");
+    const decrementButton = document.getElementById("decrement-button");
+    const incrementButton = document.getElementById("increment-button");
+    const numPeopleInput = document.getElementById("num-people");
+
+    // Lắng nghe sự kiện nút giảm
+    decrementButton.addEventListener("click", () => {
+        const currentValue = parseInt(numPeopleInput.value) || 1;
+        if (currentValue > 1) {
+            numPeopleInput.value = currentValue - 1;
+            updateTotalPrice();
+        }
+    });
+
+    // Lắng nghe sự kiện nút tăng
+    incrementButton.addEventListener("click", () => {
+        const currentValue = parseInt(numPeopleInput.value) || 1;
+        numPeopleInput.value = currentValue + 1;
+        updateTotalPrice();
+    });
 
     // Gọi API để lấy chi tiết khách sạn
     async function getHotelDetailById(hotelId) {
@@ -78,11 +97,11 @@ document.addEventListener("DOMContentLoaded", function () {
     function updateTotalPrice() {
         const checkinDate = document.getElementById("checkin-date").value;
         const checkoutDate = document.getElementById("checkout-date").value;
-        const numPeople = parseInt(document.getElementById("num-people").value, 10);
+        const numPeopleInput = parseInt(document.getElementById("num-people").value, 10);
 
         const numNights = calculateNumNights(checkinDate, checkoutDate);
         document.getElementById("num-nights").innerText = numNights;
-        const totalPrice = numNights * pricePerNight * numPeople;
+        const totalPrice = numNights * pricePerNight * numPeopleInput;
         document.getElementById("total-price").innerText = totalPrice
             ? totalPrice.toLocaleString() 
             : "0 VNĐ";

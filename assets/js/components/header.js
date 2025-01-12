@@ -6,6 +6,29 @@ fetch('components/header.html')
     .then(async html => {
         document.getElementById('header-container').innerHTML = html;
 
+        // Lấy URL hiện tại
+        const currentPage = window.location.pathname.split('/').pop();
+
+        // Tìm tất cả các liên kết trong navbar
+        const navLinks = document.querySelectorAll('#navbar-solid-bg a');
+
+        // Duyệt qua từng liên kết để kiểm tra URL
+        navLinks.forEach(link => {
+            const linkHref = link.getAttribute('href');
+
+            if (linkHref === currentPage) {
+                link.classList.add('active-link'); // Thêm class active vào liên kết tương ứng
+            } else {
+                link.classList.remove('active-link'); // Xóa class active khỏi các liên kết khác
+            }
+
+            // Xử lý khi click vào các tab
+            link.addEventListener('click', () => {
+                navLinks.forEach(nav => nav.classList.remove('active-link')); // Loại bỏ active từ tất cả
+                link.classList.add('active-link'); // Chỉ áp dụng cho tab được click
+            });
+        });
+
         // Kiểm tra trạng thái người dùng (ví dụ: đã đăng nhập hay chưa)
         const isLoggedIn = await checkLoginStatus();
         console.log('isLoggedIn:', isLoggedIn);
