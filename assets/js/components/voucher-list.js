@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     if (!user) {
         alert('Please log in to view your vouchers.');
-        window.location.href = 'login.html';
+        window.location.href = '/fe-web/login.html';
         return;
     }
 
@@ -61,7 +61,7 @@ function usePromo(promoId) {
         }
     }
 
-    window.location.href = `orders.html?promoId=${promoId}`;
+    window.location.href = `/fe-web/orders.html?promoId=${promoId}`;
 }
 
 window.usePromo = usePromo;

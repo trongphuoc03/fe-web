@@ -43,9 +43,9 @@ export async function checkLoginStatus() {
       
           // Chuyển hướng dựa trên vai trò người dùng
           if (user.role === "admin") {
-              window.location.href = "/admin.html";
+              window.location.href = "/fe-web/admin.html";
           } else {
-              window.location.href = "/index.html";
+              window.location.href = "/fe-web";
           }
       } else {
           alert("Login failed! Token not received.");

@@ -42,7 +42,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 // Hàm chuyển hướng đến trang thanh toán với order_id và promoId
 function redirectToPayment(orderId, promoId) {
-    let url = `payment.html?order_id=${orderId}`;
+    let url = `/fe-web/payment.html?order_id=${orderId}`;
     if (promoId) {
         url += `&promoId=${promoId}`;
     }

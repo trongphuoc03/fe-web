@@ -92,7 +92,7 @@ function renderFlightList(flightsList) {
         selectButton.addEventListener('click', function () {
             // Lấy giá trị `passengerCount` trực tiếp khi nhấn nút "Chọn"
             const passengerCount = document.getElementById('passengerCount').value;
-            const url = `flight-detail.html?id=${flight.id}&passengerCount=${passengerCount}`;
+            const url = `/fe-web/flight-detail.html?id=${flight.id}&passengerCount=${passengerCount}`;
             window.location.href = url;
         });
 
