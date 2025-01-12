@@ -63,7 +63,7 @@ function renderFlightList(flightsList) {
         flightItem.className = 'flex bg-white p-4 rounded-lg shadow-md w-full flex items-center space-x-4';
         flightItem.innerHTML = `
             <div class="flex" style="width:20%">
-                <img src="${flight.imgUrl   }" alt="${flight.brand}" class="w-10 h-10 me-4 rounded-full mr-4 mt-2">
+                <img src="${flight.imgUrl}" alt="${flight.brand}" class="w-10 h-10 me-4 rounded-full mr-4 mt-2">
                 <h3 class="w-1/3 text-lg font-semibold">${flight.brand}</h3>
             </div>
             <div class="flex items-center" style="width:50%">
@@ -92,7 +92,7 @@ function renderFlightList(flightsList) {
         selectButton.addEventListener('click', function () {
             // Lấy giá trị `passengerCount` trực tiếp khi nhấn nút "Chọn"
             const passengerCount = document.getElementById('passengerCount').value;
-            const url = `flight-detail.html?id=${flight.id}&passengerCount=${passengerCount}`;
+            const url = `/fe-web/flight-detail.html?id=${flight.id}&passengerCount=${passengerCount}`;
             window.location.href = url;
         });
 
