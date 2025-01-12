@@ -13,6 +13,25 @@ document.addEventListener("DOMContentLoaded", function () {
     const thumbnailContainer = document.getElementById('thumbnail-container');
     const bookTourButton = document.getElementById('book-tour-button');
     const feedbackList = document.getElementById('feedback-list');
+    const decrementButton = document.getElementById("decrement-button");
+    const incrementButton = document.getElementById("increment-button");
+    const numPeopleInput = document.getElementById("num-people");
+
+    // Lắng nghe sự kiện nút giảm
+    decrementButton.addEventListener("click", () => {
+        const currentValue = parseInt(numPeopleInput.value) || 1;
+        if (currentValue > 1) {
+            numPeopleInput.value = currentValue - 1;
+            updateTotalPrice();
+        }
+    });
+
+    // Lắng nghe sự kiện nút tăng
+    incrementButton.addEventListener("click", () => {
+        const currentValue = parseInt(numPeopleInput.value) || 1;
+        numPeopleInput.value = currentValue + 1;
+        updateTotalPrice();
+    });
 
     // Gọi API để lấy chi tiết combo
     async function getComboDetailById(comboId) {
@@ -83,10 +102,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Tính tổng giá
     function updateTotalPrice() {
-        const numPeople = parseInt(document.getElementById("num-people").value, 10);
+        const numPeopleInput = parseInt(document.getElementById("num-people").value, 10);
         const bookingDate = document.getElementById("booking-date").value;
 
-        const totalPrice = bookingDate && numPeople > 0 ? numPeople * comboPricePerPerson : 0;
+        const totalPrice = bookingDate && numPeopleInput > 0 ? numPeopleInput * comboPricePerPerson : 0;
         document.getElementById("total-price").innerText = totalPrice
             ? totalPrice.toLocaleString() + " VNĐ"
             : "0 VNĐ";

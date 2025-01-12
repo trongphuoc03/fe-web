@@ -789,6 +789,26 @@ window.document.addEventListener("DOMContentLoaded", function () {
     }
   };
 
+  function validateForm(fields) {
+    let isValid = true;
+    let missingFields = [];
+
+    fields.forEach(({ id, type, name }) => {
+        const value = document.getElementById(id)?.value;
+        if (!value || (type === "number" && value <= 0)) {
+            isValid = false;
+            missingFields.push(name);
+        }
+    });
+
+    if (!isValid) {
+        alert(`Vui lòng nhập đầy đủ và đúng định dạng các trường sau:\n${missingFields.join("\n")}`);
+    }
+
+    return isValid;
+}
+
+
   function showAddForm(itemType, container) {
     if (itemType === "Activity") {
       container.innerHTML = `
@@ -796,7 +816,7 @@ window.document.addEventListener("DOMContentLoaded", function () {
         <form id="add-form" class="space-y-4">
             <input id="name" type="text" class="block w-full mb-2 border rounded p-2" placeholder="Name">
             <input id="location" type="text" class="block w-full mb-2 border rounded p-2" placeholder="Location">
-            <input id="emptySlot" type="text" class="block w-full mb-2 border rounded p-2" placeholder="Empty Slot">
+            <input id="emptySlot" type="number" class="block w-full mb-2 border rounded p-2" placeholder="Empty Slot">
             <textarea id="description" class="block w-full mb-2 border rounded p-2" placeholder="Description"></textarea>
             <input id="price" type="number" class="block w-full mb-2 border rounded p-2" placeholder="Price">
             <input id="file" type="file" class="block w-full mb-2 border rounded p-2" placeholder="Upload File">
@@ -807,16 +827,29 @@ window.document.addEventListener("DOMContentLoaded", function () {
       const form = document.getElementById("add-form");
       form.onsubmit = function (event) {
         event.preventDefault(); // Ngăn reload trang
-        createActivity(); // Gọi hàm createActivity để thêm mới hoạt động
-        container.innerHTML = ""; // Xóa form sau khi thêm
-      };
+    
+        const fieldsToValidate = [
+            { id: "name", type: "text", name: "Name" },
+            { id: "location", type: "text", name: "Location" },
+            { id: "emptySlot", type: "number", name: "Empty Slot" },
+            { id: "description", type: "text", name: "Description" },
+            { id: "price", type: "number", name: "Price" },
+            { id: "file", type: "file", name: "File Upload" },
+        ];
+    
+        if (validateForm(fieldsToValidate)) {
+            createActivity(); // Chỉ gọi hàm nếu validate thành công
+            container.innerHTML = ""; // Xóa form sau khi thêm
+        }
+    };
+    
     }
     if (itemType === "Flight") {
       container.innerHTML = `
       <h2 class="text-2xl font-semibold mb-4">Add ${itemType}</h2>
       <form id="add-form" class="space-y-4">
           <input id="brand" type="text" class="block w-full mb-2 border rounded p-2" placeholder="Brand">
-          <input id="emptySlot" type="text" class="block w-full mb-2 border rounded p-2" placeholder="Empty Slot">
+          <input id="emptySlot" type="number" class="block w-full mb-2 border rounded p-2" placeholder="Empty Slot">
           <input id="startTime" type="datetime-local" class="block w-full mb-2 border rounded p-2" placeholder="Start Time">
           <input id="endTime" type="datetime-local" class="block w-full mb-2 border rounded p-2" placeholder="End Time">
           <input id="startLocation" type="text" class="block w-full mb-2 border rounded p-2" placeholder="Start Location">
@@ -827,12 +860,26 @@ window.document.addEventListener("DOMContentLoaded", function () {
       </form>
     `;
 
-      const form = document.getElementById("add-form");
-      form.onsubmit = function (event) {
-        event.preventDefault(); // Ngăn reload trang
-        createFlight(); // Gọi hàm createFlight để thêm mới hoạt động
-        container.innerHTML = ""; // Xóa form sau khi thêm
-      };
+    form.onsubmit = function (event) {
+      event.preventDefault();
+  
+      const fieldsToValidate = [
+          { id: "brand", type: "text", name: "Brand" },
+          { id: "emptySlot", type: "number", name: "Empty Slot" },
+          { id: "startTime", type: "datetime-local", name: "Start Time" },
+          { id: "endTime", type: "datetime-local", name: "End Time" },
+          { id: "startLocation", type: "text", name: "Start Location" },
+          { id: "endLocation", type: "text", name: "End Location" },
+          { id: "price", type: "number", name: "Price" },
+          { id: "file", type: "file", name: "File Upload" },
+      ];
+  
+      if (validateForm(fieldsToValidate)) {
+          createFlight();
+          container.innerHTML = "";
+      }
+  };
+  
     }
     if (itemType === "Hotel") {
       container.innerHTML = `
@@ -851,10 +898,24 @@ window.document.addEventListener("DOMContentLoaded", function () {
 
       const form = document.getElementById("add-form");
       form.onsubmit = function (event) {
-        event.preventDefault(); // Ngăn reload trang
-        createHotel(); // Gọi hàm createHotel đã định nghĩa ngoài
-        container.innerHTML = ""; // Xóa form sau khi thêm
-      };
+        event.preventDefault();
+    
+        const fieldsToValidate = [
+            { id: "name", type: "text", name: "Hotel Name" },
+            { id: "location", type: "text", name: "Location" },
+            { id: "phone", type: "text", name: "Phone" },
+            { id: "emptyRoom", type: "number", name: "Empty Rooms" },
+            { id: "price", type: "number", name: "Price" },
+            { id: "description", type: "text", name: "Description" },
+            { id: "file", type: "file", name: "File Upload" },
+        ];
+    
+        if (validateForm(fieldsToValidate)) {
+            createHotel();
+            container.innerHTML = "";
+        }
+    };
+    
     }
     if (itemType === "Combo") {
       container.innerHTML = `
@@ -873,10 +934,24 @@ window.document.addEventListener("DOMContentLoaded", function () {
 
       const form = document.getElementById("add-form");
       form.onsubmit = function (event) {
-        event.preventDefault(); // Ngăn reload trang
-        createCombo(); // Gọi hàm createCombo đã định nghĩa ngoài
-        container.innerHTML = ""; // Xóa form sau khi thêm
-      };
+        event.preventDefault();
+    
+        const fieldsToValidate = [
+            { id: "comboName", type: "text", name: "Combo Name" },
+            { id: "comboDescription", type: "text", name: "Description" },
+            { id: "comboPrice", type: "number", name: "Price" },
+            { id: "comboFlightId", type: "text", name: "Flight ID" },
+            { id: "comboHotelId", type: "text", name: "Hotel ID" },
+            { id: "comboActivityId", type: "text", name: "Activity ID" },
+            { id: "comboFile", type: "file", name: "File Upload" },
+        ];
+    
+        if (validateForm(fieldsToValidate)) {
+            createCombo(); // Chỉ gọi hàm nếu validate thành công
+            container.innerHTML = ""; // Xóa form sau khi thêm
+        }
+    };
+    
     }
     if (itemType === "Promo") {
       container.innerHTML = `
@@ -895,10 +970,24 @@ window.document.addEventListener("DOMContentLoaded", function () {
 
       const form = document.getElementById("add-form");
       form.onsubmit = function (event) {
-        event.preventDefault(); // Ngăn reload trang
-        createPromo(); // Gọi hàm createPromo đã định nghĩa ngoài
-        container.innerHTML = ""; // Xóa form sau khi thêm
-      };
+        event.preventDefault();
+    
+        const fieldsToValidate = [
+            { id: "promoName", type: "text", name: "Promo Name" },
+            { id: "promoDescription", type: "text", name: "Description" },
+            { id: "promoDiscount", type: "number", name: "Discount" },
+            { id: "promoExpiredDate", type: "datetime-local", name: "Expired Date" },
+            { id: "promoAmount", type: "number", name: "Amount" },
+            { id: "promoConditions", type: "text", name: "Conditions" },
+            { id: "promoFile", type: "file", name: "File Upload" },
+        ];
+    
+        if (validateForm(fieldsToValidate)) {
+            createPromo(); // Chỉ gọi hàm nếu validate thành công
+            container.innerHTML = ""; // Xóa form sau khi thêm
+        }
+    };
+    
     }
   }
 
