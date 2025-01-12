@@ -7,11 +7,6 @@
     <title>Admin Dashboard</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@latest/dist/tailwind.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/flowbite@1.7.0/dist/flowbite.min.css" rel="stylesheet">
-</head>
-
-<body>
-    <div id="header-container"></div>
-
     <style>
         .modal {
             display: none;
@@ -122,6 +117,11 @@
             gap: 10px;
         }
     </style>
+</head>
+
+<body>
+    <div id="header-container"></div>
+
 
     <div class="container mx-auto p-4 flex">
         <!-- Sidebar -->
@@ -132,44 +132,94 @@
             <div id="service-management">
                 <!-- Service Buttons -->
                 <div class="mb-6">
-                    <h2 class="text-2xl font-semibold mb-2">Activities</h2>
-                    <button class="bg-blue-500 text-white px-4 py-2 rounded w-full mb-2" onclick="handleAction('add', 'Activity')">Add</button>
-                    <button class="bg-yellow-500 text-white px-4 py-2 rounded w-full mb-2" onclick="handleAction('edit', 'Activity')">Edit</button>
-                    <button class="bg-red-500 text-white px-4 py-2 rounded w-full mb-2" onclick="handleAction('delete', 'Activity')">Delete</button>
+                    <h2 class="text-2xl font-semibold mb-2 text-center">Activities</h2>
+                    <div class="flex flex-col gap-4">
+                        <!-- Nút Add -->
+                        <button class="bg-blue-500 text-white px-6 py-3 rounded-full w-full text-center hover:bg-blue-600 transition h-12" onclick="handleAction('add', 'Activity')">
+                            <svg class="w-6 h-6 inline-block mb-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="12" fill="none" viewBox="0 0 24 24">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14m-7 7V5"/>
+                            </svg>
+                            Add
+                        </button>
+                
+                        <!-- Nút Edit -->
+                        <button class="bg-blue-500 text-white px-6 py-3 rounded-full w-full text-center hover:bg-blue-600 transition h-12" onclick="handleAction('edit', 'Activity')">
+                            <svg class="w-6 h-6 inline-block mb-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="12" fill="none" viewBox="0 0 24 24">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m14.304 4.844 2.852 2.852M7 7H4a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h11a1 1 0 0 0 1-1v-4.5m2.409-9.91a2.017 2.017 0 0 1 0 2.853l-6.844 6.844L8 14l.713-3.565 6.844-6.844a2.015 2.015 0 0 1 2.852 0Z"/>
+                            </svg>
+                            Edit
+                        </button>
+                
+                        <!-- Nút Delete -->
+                        <button class="bg-blue-500 text-white px-6 py-3 rounded-full w-full text-center hover:bg-blue-600 transition h-12" onclick="handleAction('delete', 'Activity')">
+                            <svg class="w-6 h-6 inline-block mb-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="12" fill="none" viewBox="0 0 24 24">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18 17.94 6M18 18 6.06 6"/>
+                            </svg>
+                            Delete
+                        </button>
+                    </div>
+                </div>
+                
+                
+                <div class="mb-6">
+                    <h2 class="text-2xl font-semibold mb-2 text-center">Booking</h2>
+                    <button class="bg-blue-500 text-white px-4 py-2 rounded-full w-full mb-2" onclick="handleAction('edit', 'Booking')">
+                        <svg class="w-6 h-6 inline-block mb-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="12" fill="none" viewBox="0 0 24 24">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m14.304 4.844 2.852 2.852M7 7H4a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h11a1 1 0 0 0 1-1v-4.5m2.409-9.91a2.017 2.017 0 0 1 0 2.853l-6.844 6.844L8 14l.713-3.565 6.844-6.844a2.015 2.015 0 0 1 2.852 0Z"/>
+                        </svg>
+                        Edit
+                    </button>
+
+                    <button class="bg-blue-500 text-white px-4 py-2 rounded-full w-full mb-2" onclick="handleAction('delete', 'Booking')">Delete</button>
                 </div>
                 <div class="mb-6">
-                    <h2 class="text-2xl font-semibold mb-2">Booking</h2>
-                    <button class="bg-yellow-500 text-white px-4 py-2 rounded w-full mb-2" onclick="handleAction('edit', 'Booking')">Edit</button>
-                    <button class="bg-red-500 text-white px-4 py-2 rounded w-full mb-2" onclick="handleAction('delete', 'Booking')">Delete</button>
+                    <h2 class="text-2xl font-semibold mb-2 text-center">Hotels</h2>
+                    <button class="bg-blue-500 text-white px-4 py-2 rounded-full w-full mb-2" onclick="handleAction('add', 'Hotel')">Add</button>
+                    <button class="bg-blue-500 text-white px-4 py-2 rounded-full w-full mb-2" onclick="handleAction('edit', 'Hotel')">
+                        <svg class="w-6 h-6 inline-block mb-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="12" fill="none" viewBox="0 0 24 24">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m14.304 4.844 2.852 2.852M7 7H4a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h11a1 1 0 0 0 1-1v-4.5m2.409-9.91a2.017 2.017 0 0 1 0 2.853l-6.844 6.844L8 14l.713-3.565 6.844-6.844a2.015 2.015 0 0 1 2.852 0Z"/>
+                        </svg>
+                        Edit
+                    </button>
+                    <button class="bg-blue-500 text-white px-4 py-2 rounded-full w-full mb-2" onclick="handleAction('delete', 'Hotel')">Delete</button>
                 </div>
                 <div class="mb-6">
-                    <h2 class="text-2xl font-semibold mb-2">Hotels</h2>
-                    <button class="bg-blue-500 text-white px-4 py-2 rounded w-full mb-2" onclick="handleAction('add', 'Hotel')">Add</button>
-                    <button class="bg-yellow-500 text-white px-4 py-2 rounded w-full mb-2" onclick="handleAction('edit', 'Hotel')">Edit</button>
-                    <button class="bg-red-500 text-white px-4 py-2 rounded w-full mb-2" onclick="handleAction('delete', 'Hotel')">Delete</button>
+                    <h2 class="text-2xl font-semibold mb-2 text-center">Flights</h2>
+                    <button class="bg-blue-500 text-white px-4 py-2 rounded-full w-full mb-2" onclick="handleAction('add', 'Flight')">Add</button>
+                    <button class="bg-blue-500 text-white px-4 py-2 rounded-full w-full mb-2" onclick="handleAction('edit', 'Flight')">
+                        <svg class="w-6 h-6 inline-block mb-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="12" fill="none" viewBox="0 0 24 24">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m14.304 4.844 2.852 2.852M7 7H4a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h11a1 1 0 0 0 1-1v-4.5m2.409-9.91a2.017 2.017 0 0 1 0 2.853l-6.844 6.844L8 14l.713-3.565 6.844-6.844a2.015 2.015 0 0 1 2.852 0Z"/>
+                        </svg>
+                        Edit
+                    </button>
+                    <button class="bg-blue-500 text-white px-4 py-2 rounded-full w-full mb-2" onclick="handleAction('delete', 'Flight')">Delete</button>
                 </div>
                 <div class="mb-6">
-                    <h2 class="text-2xl font-semibold mb-2">Flights</h2>
-                    <button class="bg-blue-500 text-white px-4 py-2 rounded w-full mb-2" onclick="handleAction('add', 'Flight')">Add</button>
-                    <button class="bg-yellow-500 text-white px-4 py-2 rounded w-full mb-2" onclick="handleAction('edit', 'Flight')">Edit</button>
-                    <button class="bg-red-500 text-white px-4 py-2 rounded w-full mb-2" onclick="handleAction('delete', 'Flight')">Delete</button>
+                    <h2 class="text-2xl font-semibold mb-2 text-center">Promos</h2>
+                    <button class="bg-blue-500 text-white px-4 py-2 rounded-full w-full mb-2" onclick="handleAction('add', 'Promo')">Add</button>
+                    <button class="bg-blue-500 text-white px-4 py-2 rounded-full w-full mb-2" onclick="handleAction('edit', 'Promo')">
+                        <svg class="w-6 h-6 inline-block mb-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="12" fill="none" viewBox="0 0 24 24">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m14.304 4.844 2.852 2.852M7 7H4a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h11a1 1 0 0 0 1-1v-4.5m2.409-9.91a2.017 2.017 0 0 1 0 2.853l-6.844 6.844L8 14l.713-3.565 6.844-6.844a2.015 2.015 0 0 1 2.852 0Z"/>
+                        </svg>
+                        Edit
+                    </button>
+                    <button class="bg-blue-500 text-white px-4 py-2 rounded-full w-full mb-2" onclick="handleAction('delete', 'Promo')">Delete</button>
                 </div>
                 <div class="mb-6">
-                    <h2 class="text-2xl font-semibold mb-2">Promos</h2>
-                    <button class="bg-blue-500 text-white px-4 py-2 rounded w-full mb-2" onclick="handleAction('add', 'Promo')">Add</button>
-                    <button class="bg-yellow-500 text-white px-4 py-2 rounded w-full mb-2" onclick="handleAction('edit', 'Promo')">Edit</button>
-                    <button class="bg-red-500 text-white px-4 py-2 rounded w-full mb-2" onclick="handleAction('delete', 'Promo')">Delete</button>
+                    <h2 class="text-2xl font-semibold mb-2 text-center">Combos</h2>
+                    <button class="bg-blue-500 text-white px-4 py-2 rounded-full w-full mb-2" onclick="handleAction('add', 'Combo')">Add</button>
+                    <button class="bg-blue-500 text-white px-4 py-2 rounded-full w-full mb-2" onclick="handleAction('edit', 'Combo')">
+                        <svg class="w-6 h-6 inline-block mb-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="12" fill="none" viewBox="0 0 24 24">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m14.304 4.844 2.852 2.852M7 7H4a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h11a1 1 0 0 0 1-1v-4.5m2.409-9.91a2.017 2.017 0 0 1 0 2.853l-6.844 6.844L8 14l.713-3.565 6.844-6.844a2.015 2.015 0 0 1 2.852 0Z"/>
+                        </svg>
+                        Edit
+                    </button>
+                    <button class="bg-blue-500 text-white px-4 py-2 rounded-full w-full mb-2" onclick="handleAction('delete', 'Combo')">Delete</button>
                 </div>
                 <div class="mb-6">
-                    <h2 class="text-2xl font-semibold mb-2">Combos</h2>
-                    <button class="bg-blue-500 text-white px-4 py-2 rounded w-full mb-2" onclick="handleAction('add', 'Combo')">Add</button>
-                    <button class="bg-yellow-500 text-white px-4 py-2 rounded w-full mb-2" onclick="handleAction('edit', 'Combo')">Edit</button>
-                    <button class="bg-red-500 text-white px-4 py-2 rounded w-full mb-2" onclick="handleAction('delete', 'Combo')">Delete</button>
-                </div>
-                <div class="mb-6">
-                    <h2 class="text-2xl font-semibold mb-2">Feedback</h2>
-                    <button class="bg-yellow-500 text-white px-4 py-2 rounded w-full mb-2" onclick="handleAction('edit', 'Feedback')">Read</button>
-                    <button class="bg-red-500 text-white px-4 py-2 rounded w-full mb-2" onclick="handleAction('delete', 'Feedback')">Delete</button>
+                    <h2 class="text-2xl font-semibold mb-2 text-center">Feedback</h2>
+                    <button class="bg-blue-500 text-white px-4 py-2 rounded-full w-full mb-2" onclick="handleAction('edit', 'Feedback')">Read</button>
+                    <button class="bg-blue-500 text-white px-4 py-2 rounded-full w-full mb-2" onclick="handleAction('delete', 'Feedback')">Delete</button>
                 </div>
             </div>
         </div>

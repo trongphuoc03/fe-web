@@ -7,11 +7,6 @@
     <title>Check</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@latest/dist/tailwind.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/flowbite@1.7.0/dist/flowbite.min.css" rel="stylesheet">
-</head>
-
-<body>
-    <div id="header-container"></div>
-
     <style>
         /* Đặt kiểu cho cả hai nút */
         .carousel-btn {
@@ -40,11 +35,16 @@
             left: 0;
             z-index: 1000;
         }
+
     </style>
+</head>
+
+<body>
+    <div id="header-container"></div>
 
     <main>
         <!-- Carousel Quảng Cáo -->
-        <div id="advertisement-carousel" class="relative w-full" data-carousel="static">
+        <div id="advertisement-carousel" class="relative w-full" data-carousel="static" style="margin-top: 75px;">
             <div class="relative h-56 overflow-hidden rounded-lg md:h-96">
                 <!-- Slide 1 -->
                 <div class="duration-700 ease-in-out" data-carousel-item="active">
