@@ -9,35 +9,39 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   async function callAPI(endpoint, method, body = null, isFile = false) {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem("token");
     const headers = {
-        'Authorization': `Bearer ${token}`
+      Authorization: `Bearer ${token}`,
     };
     if (!isFile) {
-        headers['Content-Type'] = 'application/json';
+      headers["Content-Type"] = "application/json";
     }
 
     const options = {
-        method: method,
-        headers: headers,
+      method: method,
+      headers: headers,
     };
 
     if (body) {
-        options.body = isFile ? body : JSON.stringify(body);
+      options.body = isFile ? body : JSON.stringify(body);
     }
 
     const response = await fetch(endpoint, options);
     if (response.ok) {
-        return await response.json();
+      return await response.json();
     } else {
-        throw new Error(`Error: ${response.status} ${response.statusText}`);
+      throw new Error(`Error: ${response.status} ${response.statusText}`);
     }
   }
 
   // Hàm tải và hiển thị các combo items từ API
   async function loadCombos() {
     try {
-      const data = await callAPI('https://symfony-9z0y.onrender.com/combos/bulk', 'GET');
+      const data = await callAPI(
+        "https://symfony-9z0y.onrender.com/combos/bulk",
+        "GET"
+      );
+      console.log("Combo", data);
       const comboItemsContainer = document.getElementById("combo-items");
       comboItemsContainer.innerHTML = ""; // Xóa nội dung cũ
 
@@ -54,12 +58,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
         comboItemsContainer.innerHTML = "";
         combosToShow.forEach((combo) => {
-          console.log('combo:', combo);
+          console.log("combo:", combo);
           const comboCard = document.createElement("div");
           comboCard.className = "carousel-item w-full";
           comboCard.innerHTML = `
             <a href="combo-detail.html?id=${combo.comboId}">
-                <img class="p-4 rounded-t-lg" src="${combo.image_url}" alt="${combo.name}" />
+                <img class="p-4 rounded-t-lg" src="${combo.imgUrl}" alt="${combo.name}" />
             </a>
             <div class="px-3 pb-4">
                 <a href="combo-detail.html?id=${combo.comboId}">
@@ -73,16 +77,20 @@ document.addEventListener("DOMContentLoaded", function () {
 
       displayCombos();
 
-      document.getElementById("next-btn-combo").addEventListener("click", () => {
-        currentIndex = (currentIndex + 1) % totalCombos.length;
-        displayCombos();
-      });
+      document
+        .getElementById("next-btn-combo")
+        .addEventListener("click", () => {
+          currentIndex = (currentIndex + 1) % totalCombos.length;
+          displayCombos();
+        });
 
-      document.getElementById("prev-btn-combo").addEventListener("click", () => {
-        currentIndex = (currentIndex - 1 + totalCombos.length) % totalCombos.length;
-        displayCombos();
-      });
-
+      document
+        .getElementById("prev-btn-combo")
+        .addEventListener("click", () => {
+          currentIndex =
+            (currentIndex - 1 + totalCombos.length) % totalCombos.length;
+          displayCombos();
+        });
     } catch (error) {
       console.error("Error loading combos:", error);
     }
@@ -90,7 +98,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
   async function loadHotels() {
     try {
-      const data = await callAPI('https://symfony-9z0y.onrender.com/hotels/bulk', 'GET');
+      const data = await callAPI(
+        "https://symfony-9z0y.onrender.com/hotels/bulk",
+        "GET"
+      );
+      console.log("Hotel", data);
       const hotelItemsContainer = document.getElementById("hotel-items");
       hotelItemsContainer.innerHTML = ""; // Xóa nội dung cũ
 
@@ -107,12 +119,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
         hotelItemsContainer.innerHTML = "";
         hotelsToShow.forEach((hotel) => {
-          console.log('hotel:', hotel);
+          console.log("hotel:", hotel);
           const hotelCard = document.createElement("div");
           hotelCard.className = "carousel-item w-full";
           hotelCard.innerHTML = `
             <a href="hotel-detail.html?id=${hotel.id}">
-                <img class="p-4 rounded-t-lg" src="${hotel.image_url}" alt="${hotel.name}" />
+                <img class="p-4 rounded-t-lg" src="${hotel.imgUrl}" alt="${hotel.name}" />
             </a>
             <div class="px-3 pb-4">
                 <a href="hotel-detail.html?id=${hotel.id}">
@@ -126,16 +138,20 @@ document.addEventListener("DOMContentLoaded", function () {
 
       displayHotels();
 
-      document.getElementById("next-btn-hotel").addEventListener("click", () => {
-        currentIndex = (currentIndex + 1) % totalHotels.length;
-        displayHotels();
-      });
+      document
+        .getElementById("next-btn-hotel")
+        .addEventListener("click", () => {
+          currentIndex = (currentIndex + 1) % totalHotels.length;
+          displayHotels();
+        });
 
-      document.getElementById("prev-btn-hotel").addEventListener("click", () => {
-        currentIndex = (currentIndex - 1 + totalHotels.length) % totalHotels.length;
-        displayHotels();
-      });
-
+      document
+        .getElementById("prev-btn-hotel")
+        .addEventListener("click", () => {
+          currentIndex =
+            (currentIndex - 1 + totalHotels.length) % totalHotels.length;
+          displayHotels();
+        });
     } catch (error) {
       console.error("Error loading hotels:", error);
     }
@@ -143,7 +159,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
   async function loadFlights() {
     try {
-      const data = await callAPI('https://symfony-9z0y.onrender.com/flights/bulk', 'GET');
+      const data = await callAPI(
+        "https://symfony-9z0y.onrender.com/flights/bulk",
+        "GET"
+      );
+      console.log("Flight", data);
       const flightItemsContainer = document.getElementById("flight-items");
       flightItemsContainer.innerHTML = ""; // Xóa nội dung cũ
 
@@ -161,15 +181,26 @@ document.addEventListener("DOMContentLoaded", function () {
         const passengerCount = 1;
         flightItemsContainer.innerHTML = "";
         flightsToShow.forEach((flight) => {
-          console.log('flight:', flight);
+          console.log("flight:", flight);
           const flightCard = document.createElement("div");
           flightCard.className = "carousel-item w-full";
           flightCard.innerHTML = `
             <div class="px-3 pb-4">
-                <a href="flight-detail.html?id=${flight.id}&passengerCount=${passengerCount}">
-                <h5 class="text-lg font-semibold tracking-tight text-gray-900 dark:text-white"> ${flight.startLocation} - ${flight.endLocation}</h5>
-                <h5 class="text-lg font-semibold tracking-tight text-gray-900 dark:text-white" >${new Date(flight.startTime).toLocaleDateString()}</h5>
-                <h5 class="text-lg font-semibold tracking-tight text-gray-900 dark:text-white" >${flight.brand} </h5>                                
+                <a href="flight-detail.html?id=${
+                  flight.id
+                }&passengerCount=${passengerCount}">
+                                <img class="p-4 rounded-t-lg" src="${
+                                  flight.imgUrl
+                                }" alt="${flight.name}" />
+                <h5 class="text-lg font-semibold tracking-tight text-gray-900 dark:text-white"> ${
+                  flight.startLocation
+                } - ${flight.endLocation}</h5>
+                <h5 class="text-lg font-semibold tracking-tight text-gray-900 dark:text-white" >${new Date(
+                  flight.startTime
+                ).toLocaleDateString()}</h5>
+                <h5 class="text-lg font-semibold tracking-tight text-gray-900 dark:text-white" >${
+                  flight.brand
+                } </h5>                                
                 </a>
             </div>
           `;
@@ -179,16 +210,20 @@ document.addEventListener("DOMContentLoaded", function () {
 
       displayFlights();
 
-      document.getElementById("next-btn-flight").addEventListener("click", () => {
-        currentIndex = (currentIndex + 1) % totalFlights.length;
-        displayFlights();
-      });
+      document
+        .getElementById("next-btn-flight")
+        .addEventListener("click", () => {
+          currentIndex = (currentIndex + 1) % totalFlights.length;
+          displayFlights();
+        });
 
-      document.getElementById("prev-btn-flight").addEventListener("click", () => {
-        currentIndex = (currentIndex - 1 + totalFlights.length) % totalFlights.length;
-        displayFlights();
-      });
-
+      document
+        .getElementById("prev-btn-flight")
+        .addEventListener("click", () => {
+          currentIndex =
+            (currentIndex - 1 + totalFlights.length) % totalFlights.length;
+          displayFlights();
+        });
     } catch (error) {
       console.error("Error loading flights:", error);
     }
@@ -196,8 +231,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
   async function loadActivities() {
     try {
-      const data = await callAPI('https://symfony-9z0y.onrender.com/activities/bulk', 'GET');
-      const activitiesItemsContainer = document.getElementById("activities-items");
+      const data = await callAPI(
+        "https://symfony-9z0y.onrender.com/activities/bulk",
+        "GET"
+      );
+      console.log("Activity", data);
+      const activitiesItemsContainer =
+        document.getElementById("activities-items");
       activitiesItemsContainer.innerHTML = ""; // Xóa nội dung cũ
 
       const itemsPerPage = 5;
@@ -213,7 +253,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         activitiesItemsContainer.innerHTML = "";
         activitiesToShow.forEach((activities) => {
-          console.log('activities:', activities);
+          console.log("activities:", activities);
           const activityCard = document.createElement("div");
           activityCard.className = "carousel-item w-full";
           activityCard.innerHTML = `
@@ -221,6 +261,7 @@ document.addEventListener("DOMContentLoaded", function () {
             </a>
             <div class="px-3 pb-4">
                 <a href="activity-detail.html?id=${activities.activityId}">
+                    <img class="p-4 rounded-t-lg" src="${activities.imgUrl}" alt="${activities.name}" />x
                     <h5 class="text-lg font-semibold tracking-tight text-gray-900 dark:text-white">${activities.name}</h5>
                 </a>
             </div>
@@ -231,16 +272,21 @@ document.addEventListener("DOMContentLoaded", function () {
 
       displayActivities();
 
-      document.getElementById("next-btn-activities").addEventListener("click", () => {
-        currentIndex = (currentIndex + 1) % totalActivities.length;
-        displayActivities();
-      });
+      document
+        .getElementById("next-btn-activities")
+        .addEventListener("click", () => {
+          currentIndex = (currentIndex + 1) % totalActivities.length;
+          displayActivities();
+        });
 
-      document.getElementById("prev-btn-activities").addEventListener("click", () => {
-        currentIndex = (currentIndex - 1 + totalActivities.length) % totalActivities.length;
-        displayActivities();
-      });
-
+      document
+        .getElementById("prev-btn-activities")
+        .addEventListener("click", () => {
+          currentIndex =
+            (currentIndex - 1 + totalActivities.length) %
+            totalActivities.length;
+          displayActivities();
+        });
     } catch (error) {
       console.error("Error loading activities:", error);
     }
