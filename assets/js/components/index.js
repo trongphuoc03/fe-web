@@ -261,7 +261,7 @@ document.addEventListener("DOMContentLoaded", function () {
             </a>
             <div class="px-3 pb-4">
                 <a href="activity-detail.html?id=${activities.activityId}">
-                    <img class="p-4 rounded-t-lg" src="${activities.imgUrl}" alt="${activities.name}" />x
+                    <img class="p-4 rounded-t-lg" src="${activities.imgUrl}" alt="${activities.name}" />
                     <h5 class="text-lg font-semibold tracking-tight text-gray-900 dark:text-white">${activities.name}</h5>
                 </a>
             </div>

@@ -63,7 +63,7 @@ function renderFlightList(flightsList) {
         flightItem.className = 'flex bg-white p-4 rounded-lg shadow-md w-full flex items-center space-x-4';
         flightItem.innerHTML = `
             <div class="flex" style="width:20%">
-                <img src="${flight.image}" alt="${flight.brand}" class="w-10 h-10 me-4 rounded-full mr-4 mt-2">
+                <img src="${flight.imgUrl   }" alt="${flight.brand}" class="w-10 h-10 me-4 rounded-full mr-4 mt-2">
                 <h3 class="w-1/3 text-lg font-semibold">${flight.brand}</h3>
             </div>
             <div class="flex items-center" style="width:50%">
