@@ -86,7 +86,7 @@ fetch('components/header.html')
             logoutButton.addEventListener('click', function () {
                 localStorage.setItem('isLoggedIn', 'false');
                 localStorage.removeItem('user');
-                window.location.href = '/index.html'; // Chuyển hướng về trang chủ hoặc trang đăng nhập
+                window.location.href = '/fe-web'; // Chuyển hướng về trang chủ hoặc trang đăng nhập
             });
         }
     })

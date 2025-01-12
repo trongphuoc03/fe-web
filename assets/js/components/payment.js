@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   if (!orderId) {
     alert("No order ID provided.");
-    window.location.href = "orders.html";
+    window.location.href = "/fe-web/orders.html";
     return;
   }
 
@@ -241,7 +241,7 @@ async function completePayment(orderId, promoId, paymentMethod) {
     if (body !== null) {
       console.log("Payment details:", body);
       alert("Payment successful!");
-      window.location.href = "index.html";
+      window.location.href = "/fe-web";
     }
   } catch (error) {
     console.error("Error completing payment:", error);
@@ -257,7 +257,7 @@ function showPromoOptions() {
 
 // Function to apply promo
 function applyPromo(orderId, promoId) {
-  let url = `payment.html?order_id=${orderId}&promoId=${promoId}`;
+  let url = `/fe-web/payment.html?order_id=${orderId}&promoId=${promoId}`;
   window.location.href = url;
 }
 
